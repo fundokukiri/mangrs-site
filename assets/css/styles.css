@@ -1487,6 +1487,56 @@ button {
   white-space: pre;
 }
 
+.install-code-wrap {
+  position: relative;
+  margin: 0.3rem 0 0;
+}
+
+.install-code-wrap .install-code {
+  margin: 0;
+  padding-right: 4.5rem;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg, transparent);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.7rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.install-code-wrap:hover .copy-btn,
+.copy-btn:focus-visible,
+.copy-btn.copied {
+  opacity: 1;
+}
+
+.copy-btn:hover {
+  color: var(--text, inherit);
+  border-color: var(--muted);
+}
+
+.copy-btn.copied {
+  color: #2da44e;
+  border-color: #2da44e;
+}
+
+.copy-btn svg {
+  display: block;
+}
+
 @media (max-width: 720px) {
   .wordmark-canvas {
     width: 100%;

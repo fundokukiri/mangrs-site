@@ -2281,6 +2281,58 @@ function hideLangHint() {
   }, 220);
 }
 
+function setupCopyButtons() {
+  document.querySelectorAll(".install-code").forEach((pre) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "install-code-wrap";
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "copy-btn";
+    btn.setAttribute("aria-label", "Copy code to clipboard");
+    btn.title = "Copy";
+    btn.innerHTML =
+      '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="8" height="8" rx="1.5"/><path d="M11 5V4a1.5 1.5 0 0 0-1.5-1.5h-6A1.5 1.5 0 0 0 2 4v6A1.5 1.5 0 0 0 3.5 11.5H4"/></svg>' +
+      '<span class="copy-label" data-i18n="install.copy">Copy</span>';
+    wrapper.appendChild(btn);
+
+    btn.addEventListener("click", async () => {
+      const code = pre.querySelector("code");
+      try {
+        await navigator.clipboard.writeText(code.innerText);
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(code);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        document.execCommand("copy");
+        sel.removeAllRanges();
+      }
+      btn.classList.add("copied");
+      const label = btn.querySelector(".copy-label");
+      const copiedText =
+        (translations[currentLang] &&
+          translations[currentLang].install &&
+          translations[currentLang].install.copied) ||
+        "Copied!";
+      if (label) label.textContent = copiedText;
+      clearTimeout(btn._timer);
+      btn._timer = setTimeout(() => {
+        btn.classList.remove("copied");
+        const copyText =
+          (translations[currentLang] &&
+            translations[currentLang].install &&
+            translations[currentLang].install.copy) ||
+          "Copy";
+        if (label) label.textContent = copyText;
+      }, 2000);
+    });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   loadTranslations().then(() => {
     const saved = localStorage.getItem(langKey);
@@ -2310,4 +2362,5 @@ document.addEventListener("DOMContentLoaded", () => {
   setupTypewriter();
   setupFooterNav();
   setupLangPicker();
+  setupCopyButtons();
 });

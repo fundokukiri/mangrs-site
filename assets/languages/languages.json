@@ -118,7 +118,9 @@
       "source_desc": "Build the engine, then run the installer.",
       "after_title": "Enable the input source",
       "after_desc": "Restart IBus, then add Vietnamese → MăngRS in Settings → Keyboard → Input Sources. Switch layouts with Super+Space.",
-      "note": "Binary packages for Arch, Debian/Ubuntu and Fedora/openSUSE are not available yet. Full instructions live in docs/installation.md."
+      "note": "Binary packages for Arch, Debian/Ubuntu and Fedora/openSUSE are not available yet. Full instructions live in docs/installation.md.",
+      "copy": "Copy",
+      "copied": "Copied!"
     },
     "contact": {
       "title": "#get-mangrs",
@@ -271,7 +273,9 @@
       "source_desc": "Build bộ gõ rồi chạy trình cài đặt.",
       "after_title": "Bật nguồn nhập",
       "after_desc": "Khởi động lại IBus, rồi thêm Tiếng Việt → MăngRS trong Cài đặt → Bàn phím → Nguồn nhập. Chuyển bố cục bằng Super+Space.",
-      "note": "Gói nhị phân cho Arch, Debian/Ubuntu và Fedora/openSUSE chưa có sẵn. Hướng dẫn đầy đủ nằm trong docs/installation.md."
+      "note": "Gói nhị phân cho Arch, Debian/Ubuntu và Fedora/openSUSE chưa có sẵn. Hướng dẫn đầy đủ nằm trong docs/installation.md.",
+      "copy": "Sao chép",
+      "copied": "Đã sao chép!"
     },
     "contact": {
       "title": "#tải-mangrs",
@@ -424,7 +428,9 @@
       "source_desc": "构建引擎，然后运行安装脚本。",
       "after_title": "启用输入源",
       "after_desc": "重启 IBus，然后在 设置 → 键盘 → 输入源 中添加 越南语 → MăngRS。用 Super+Space 切换布局。",
-      "note": "Arch、Debian/Ubuntu 和 Fedora/openSUSE 的二进制安装包尚未提供。完整说明见 docs/installation.md。"
+      "note": "Arch、Debian/Ubuntu 和 Fedora/openSUSE 的二进制安装包尚未提供。完整说明见 docs/installation.md。",
+      "copy": "复制",
+      "copied": "已复制！"
     },
     "contact": {
       "title": "#获取-mangrs",
@@ -577,7 +583,9 @@
       "source_desc": "建置引擎，然後執行安裝指令碼。",
       "after_title": "啟用輸入來源",
       "after_desc": "重新啟動 IBus，然後在 設定 → 鍵盤 → 輸入來源 中加入 越南語 → MăngRS。用 Super+Space 切換配置。",
-      "note": "Arch、Debian/Ubuntu 與 Fedora/openSUSE 的二進位安裝包尚未提供。完整說明見 docs/installation.md。"
+      "note": "Arch、Debian/Ubuntu 與 Fedora/openSUSE 的二進位安裝包尚未提供。完整說明見 docs/installation.md。",
+      "copy": "複製",
+      "copied": "已複製！"
     },
     "contact": {
       "title": "#取得-mangrs",

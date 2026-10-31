@@ -1,0 +1,614 @@
+{
+  "en": {
+    "site": {
+      "title": "MăngRS — A Vietnamese Keyboard for IBus",
+      "description": "A Vietnamese input method engine for IBus, written in Rust. Telex, VNI, VIQR and Microsoft layouts with smart spell check, macros and per-app rules."
+    },
+    "nav": {
+      "about": "About",
+      "features": "Features",
+      "modes": "Modes",
+      "install": "Install",
+      "get": "Download"
+    },
+    "lang": {
+      "menuLabel": "Select language",
+      "hint": "Click here to change to a language that suits you"
+    },
+    "hero": {
+      "banner_text": "v0.1.2 released — Linux · IBus · MIT License",
+      "tagline": "A Vietnamese keyboard for IBus, written in Rust.",
+      "sub_line_1": "Telex · VNI · VIQR · Microsoft — smart spell check, macros, per-app rules.",
+      "sub_line_2": "Tested on Arch Linux, GNOME 51 and Wayland. Needs IBus ≥ 1.5 and GTK4.",
+      "download": "Download v0.1.2",
+      "github": "View on GitHub"
+    },
+    "about": {
+      "title": "#about",
+      "subtitle": "A Vietnamese input method, rebuilt in Rust.",
+      "p1": "MăngRS is a Vietnamese input method engine for IBus, written in Rust on top of bamboo-core. It brings Telex, VNI, VIQR and the Microsoft layout together with a GTK4 settings window, macros, a custom dictionary and per-app rules.",
+      "p2": "Developed and tested on Arch Linux (IBus 1.5.34, GNOME 51, Wayland; X11 smoke-tested). Other distributions and desktop environments are not tested yet — IBus ≥ 1.5 and GTK4 are the only hard requirements.",
+      "spec_label": "Project",
+      "version_label": "Latest version",
+      "license_label": "License",
+      "platform_label": "Platform",
+      "language_label": "Written in",
+      "action_github": "Star on GitHub",
+      "action_docs": "Read the docs"
+    },
+    "features": {
+      "title": "#features",
+      "subtitle": "Everything a Vietnamese typist needs.",
+      "inputsLabel": "Input methods",
+      "telex": "Telex",
+      "vni": "VNI",
+      "viqr": "VIQR",
+      "microsoft": "Microsoft layout",
+      "typingLabel": "Typing options",
+      "typing1": "Modern tone placement (hòa) or traditional (hoà)",
+      "typing2": "Free tone marking: hoangf → hoàng",
+      "typing3": "Spell check from a bundled 38,350-word list",
+      "typing4": "Auto-restore non-Vietnamese words",
+      "typing5": "Raw keys after / : @ . _ ~ = # & % ?",
+      "typing6": "w → ư, [ ] → ơ ư, -- → —",
+      "typing7": "Auto-capitalize and double space → period",
+      "typing8": "Macros with $TIME / $DATE expansion",
+      "charsetsLabel": "Output charsets",
+      "qualityLabel": "Settings & quality",
+      "q1": "GTK4 settings",
+      "q2": "6 tabs",
+      "q3": "Hot reload",
+      "q4": "JSON backup",
+      "q5": "App rules",
+      "q6": "164 tests",
+      "charsets": "Unicode · Unicode NFD · TCVN3 · VNI · VIQR · VISCII · VPS · CP1258 · BKHCM · Vietware X · Vietware Full"
+    },
+    "modes": {
+      "title": "#display-modes",
+      "subtitle": "Six ways to put Vietnamese on screen.",
+      "how": "How it works",
+      "more": "More",
+      "less": "Less",
+      "note": "The uinput modes need /dev/uinput and fall back to preedit wherever real-key injection cannot reach the application; on GNOME Wayland they resolve to preedit.",
+      "list": [
+        {
+          "role": "Preedit (default)",
+          "kind": "Classic",
+          "best": "Best for: widest compatibility",
+          "desc": "The word shows inline with an underline and commits when the word ends."
+        },
+        {
+          "role": "Non-preedit",
+          "kind": "Classic",
+          "best": "Best for: Firefox, GTK apps",
+          "desc": "Every key commits immediately; the tail is rewritten when a mark arrives."
+        },
+        {
+          "role": "Surrounding text",
+          "kind": "Classic",
+          "best": "Best for: Sublime Text",
+          "desc": "Non-preedit plus a check against the application's own text report."
+        },
+        {
+          "role": "Smooth",
+          "kind": "Uinput · X11",
+          "best": "Best for: terminals, quirky apps",
+          "desc": "Raw keys are forwarded while typing; the Latin tail is erased with real Backspaces at word end."
+        },
+        {
+          "role": "Super Smooth",
+          "kind": "Uinput · X11",
+          "best": "Best for: fast typing",
+          "desc": "Same as Smooth, without the safety check before rewriting the tail."
+        },
+        {
+          "role": "Select",
+          "kind": "Uinput · X11",
+          "best": "Best for: apps where Backspaces misbehave",
+          "desc": "Shift+← selects the tail, Delete erases it, then the word commits."
+        }
+      ]
+    },
+    "install": {
+      "title": "#install",
+      "subtitle": "Install from source. Binary packages are not available yet.",
+      "online_title": "One-line install",
+      "online_desc": "Downloads the source, builds it and installs it. Needs curl, Rust, IBus, GTK4 and sudo.",
+      "source_title": "From source",
+      "source_desc": "Build the engine, then run the installer.",
+      "after_title": "Enable the input source",
+      "after_desc": "Restart IBus, then add Vietnamese → MăngRS in Settings → Keyboard → Input Sources. Switch layouts with Super+Space.",
+      "note": "Binary packages for Arch, Debian/Ubuntu and Fedora/openSUSE are not available yet. Full instructions live in docs/installation.md."
+    },
+    "contact": {
+      "title": "#get-mangrs",
+      "subtitle": "Free, open source, MIT licensed.",
+      "heading": "Get MăngRS.",
+      "description": "Report a bug, request a feature, or help test it on your distribution.",
+      "link_releases": "Releases",
+      "link_github": "GitHub",
+      "link_docs": "Documentation",
+      "link_issues": "Issues",
+      "link_email": "Email"
+    },
+    "footer": {
+      "role": "A Vietnamese keyboard for IBus · Written in Rust",
+      "explore": "Explore",
+      "resources": "Resources",
+      "project": "Project",
+      "home": "Home",
+      "about": "About",
+      "features": "Features",
+      "modes": "Modes",
+      "install": "Install",
+      "contact": "Get MăngRS",
+      "link_github": "GitHub",
+      "link_releases": "Releases",
+      "link_docs": "Documentation",
+      "link_issues": "Issues",
+      "link_license": "MIT License",
+      "link_notice": "Third-party notices",
+      "copyright": "© 2026 MăngRS · MIT License",
+      "built_with": "Built with ❤ and agents, inspired by omarchy.org"
+    }
+  },
+  "vi": {
+    "site": {
+      "title": "MăngRS — Bộ gõ tiếng Việt cho IBus",
+      "description": "Bộ gõ tiếng Việt cho IBus, viết bằng Rust. Hỗ trợ Telex, VNI, VIQR và kiểu Microsoft cùng kiểm tra chính tả, macro và quy tắc theo ứng dụng."
+    },
+    "nav": {
+      "about": "Giới thiệu",
+      "features": "Tính năng",
+      "modes": "Chế độ",
+      "install": "Cài đặt",
+      "get": "Tải về"
+    },
+    "lang": {
+      "menuLabel": "Chọn ngôn ngữ",
+      "hint": "Nhấn vào đây để thay đổi ngôn ngữ phù hợp với bạn"
+    },
+    "hero": {
+      "banner_text": "Đã phát hành v0.1.2 — Linux · IBus · Giấy phép MIT",
+      "tagline": "Bộ gõ tiếng Việt cho IBus, viết bằng Rust.",
+      "sub_line_1": "Telex · VNI · VIQR · Microsoft — kiểm tra chính tả, macro, quy tắc theo ứng dụng.",
+      "sub_line_2": "Đã thử nghiệm trên Arch Linux, GNOME 51 và Wayland. Cần IBus ≥ 1.5 và GTK4.",
+      "download": "Tải v0.1.2",
+      "github": "Xem trên GitHub"
+    },
+    "about": {
+      "title": "#giới-thiệu",
+      "subtitle": "Bộ gõ tiếng Việt, viết lại bằng Rust.",
+      "p1": "MăngRS là bộ gõ tiếng Việt cho IBus, viết bằng Rust trên nền bamboo-core. Sản phẩm gộp Telex, VNI, VIQR và kiểu Microsoft cùng cửa sổ cài đặt GTK4, macro, từ điển riêng và quy tắc theo từng ứng dụng.",
+      "p2": "Được phát triển và thử nghiệm trên Arch Linux (IBus 1.5.34, GNOME 51, Wayland; X11 đã thử qua). Các bản phân phối và môi trường đồ họa khác chưa được thử — IBus ≥ 1.5 và GTK4 là hai yêu cầu bắt buộc duy nhất.",
+      "spec_label": "Dự án",
+      "version_label": "Phiên bản mới nhất",
+      "license_label": "Giấy phép",
+      "platform_label": "Nền tảng",
+      "language_label": "Viết bằng",
+      "action_github": "Star trên GitHub",
+      "action_docs": "Đọc tài liệu"
+    },
+    "features": {
+      "title": "#tính-năng",
+      "subtitle": "Mọi thứ người gõ tiếng Việt cần.",
+      "inputsLabel": "Kiểu gõ",
+      "telex": "Telex",
+      "vni": "VNI",
+      "viqr": "VIQR",
+      "microsoft": "Kiểu Microsoft",
+      "typingLabel": "Tuỳ chọn gõ",
+      "typing1": "Đặt dấu kiểu mới (hòa) hoặc kiểu cũ (hoà)",
+      "typing2": "Gõ dấu tự do: hoangf → hoàng",
+      "typing3": "Kiểm tra chính tả với danh sách 38.350 từ",
+      "typing4": "Tự khôi phục từ không phải tiếng Việt",
+      "typing5": "Giữ nguyên phím sau / : @ . _ ~ = # & % ?",
+      "typing6": "w → ư, [ ] → ơ ư, -- → —",
+      "typing7": "Tự viết hoa và hai dấu cách → dấu chấm",
+      "typing8": "Macro với biến $TIME / $DATE",
+      "charsetsLabel": "Bảng mã đầu ra",
+      "qualityLabel": "Cài đặt & chất lượng",
+      "q1": "Cài đặt GTK4",
+      "q2": "6 thẻ",
+      "q3": "Tải lại nóng",
+      "q4": "Sao lưu JSON",
+      "q5": "Quy tắc ứng dụng",
+      "q6": "164 bài test",
+      "charsets": "Unicode · Unicode NFD · TCVN3 · VNI · VIQR · VISCII · VPS · CP1258 · BKHCM · Vietware X · Vietware Full"
+    },
+    "modes": {
+      "title": "#chế-độ-hiển-thị",
+      "subtitle": "Sáu cách đưa tiếng Việt lên màn hình.",
+      "how": "Cách hoạt động",
+      "more": "Thêm",
+      "less": "Bớt",
+      "note": "Các chế độ uinput cần /dev/uinput và tự quay về preedit khi không thể chèn phím thật vào ứng dụng; trên GNOME Wayland chúng hoạt động như preedit.",
+      "list": [
+        {
+          "role": "Preedit (mặc định)",
+          "kind": "Cổ điển",
+          "best": "Phù hợp: tương thích rộng nhất",
+          "desc": "Từ hiện ngay trong dòng với gạch chân và được chốt khi kết thúc từ."
+        },
+        {
+          "role": "Non-preedit",
+          "kind": "Cổ điển",
+          "best": "Phù hợp: Firefox, ứng dụng GTK",
+          "desc": "Mỗi phím được chốt ngay; phần đuôi được viết lại khi có dấu."
+        },
+        {
+          "role": "Surrounding text",
+          "kind": "Cổ điển",
+          "best": "Phù hợp: Sublime Text",
+          "desc": "Như non-preedit, kèm kiểm tra với nội dung văn bản do ứng dụng báo về."
+        },
+        {
+          "role": "Smooth",
+          "kind": "Uinput · X11",
+          "best": "Phù hợp: terminal, ứng dụng lạ",
+          "desc": "Phím thô được chuyển tiếp khi gõ; đuôi Latin bị xoá bằng Backspace thật khi hết từ."
+        },
+        {
+          "role": "Super Smooth",
+          "kind": "Uinput · X11",
+          "best": "Phù hợp: gõ nhanh",
+          "desc": "Giống Smooth nhưng bỏ bước kiểm tra an toàn trước khi viết lại phần đuôi."
+        },
+        {
+          "role": "Select",
+          "kind": "Uinput · X11",
+          "best": "Phù hợp: ứng dụng xử lý Backspace kém",
+          "desc": "Shift+← chọn phần đuôi, Delete xoá nó, sau đó từ được chốt."
+        }
+      ]
+    },
+    "install": {
+      "title": "#cài-đặt",
+      "subtitle": "Cài từ mã nguồn. Gói nhị phân chưa có sẵn.",
+      "online_title": "Cài bằng một dòng lệnh",
+      "online_desc": "Tải mã nguồn, build và cài đặt. Cần curl, Rust, IBus, GTK4 và sudo.",
+      "source_title": "Từ mã nguồn",
+      "source_desc": "Build bộ gõ rồi chạy trình cài đặt.",
+      "after_title": "Bật nguồn nhập",
+      "after_desc": "Khởi động lại IBus, rồi thêm Tiếng Việt → MăngRS trong Cài đặt → Bàn phím → Nguồn nhập. Chuyển bố cục bằng Super+Space.",
+      "note": "Gói nhị phân cho Arch, Debian/Ubuntu và Fedora/openSUSE chưa có sẵn. Hướng dẫn đầy đủ nằm trong docs/installation.md."
+    },
+    "contact": {
+      "title": "#tải-mangrs",
+      "subtitle": "Miễn phí, mã nguồn mở, giấy phép MIT.",
+      "heading": "Tải MăngRS.",
+      "description": "Báo lỗi, đề xuất tính năng, hoặc giúp thử nghiệm trên bản phân phối của bạn.",
+      "link_releases": "Bản phát hành",
+      "link_github": "GitHub",
+      "link_docs": "Tài liệu",
+      "link_issues": "Báo lỗi",
+      "link_email": "Email"
+    },
+    "footer": {
+      "role": "Bộ gõ tiếng Việt cho IBus · Viết bằng Rust",
+      "explore": "Khám phá",
+      "resources": "Tài nguyên",
+      "project": "Dự án",
+      "home": "Trang chủ",
+      "about": "Giới thiệu",
+      "features": "Tính năng",
+      "modes": "Chế độ",
+      "install": "Cài đặt",
+      "contact": "Tải MăngRS",
+      "link_github": "GitHub",
+      "link_releases": "Bản phát hành",
+      "link_docs": "Tài liệu",
+      "link_issues": "Báo lỗi",
+      "link_license": "Giấy phép MIT",
+      "link_notice": "Ghi công bên thứ ba",
+      "copyright": "© 2026 MăngRS · Giấy phép MIT",
+      "built_with": "Xây dựng bằng ❤ và agent, lấy cảm hứng từ omarchy.org"
+    }
+  },
+  "zh-CN": {
+    "site": {
+      "title": "MăngRS — IBus 越南语输入法",
+      "description": "用 Rust 编写的 IBus 越南语输入法。支持 Telex、VNI、VIQR 和 Microsoft 布局，内置拼写检查、宏和按应用规则。"
+    },
+    "nav": {
+      "about": "简介",
+      "features": "功能",
+      "modes": "模式",
+      "install": "安装",
+      "get": "下载"
+    },
+    "lang": {
+      "menuLabel": "选择语言",
+      "hint": "点击此处，切换到适合您的语言"
+    },
+    "hero": {
+      "banner_text": "v0.1.2 已发布 — Linux · IBus · MIT 许可证",
+      "tagline": "用 Rust 编写的 IBus 越南语键盘。",
+      "sub_line_1": "Telex · VNI · VIQR · Microsoft — 拼写检查、宏、按应用规则。",
+      "sub_line_2": "已在 Arch Linux、GNOME 51 和 Wayland 上测试。需要 IBus ≥ 1.5 和 GTK4。",
+      "download": "下载 v0.1.2",
+      "github": "在 GitHub 上查看"
+    },
+    "about": {
+      "title": "#简介",
+      "subtitle": "用 Rust 重写的越南语输入法。",
+      "p1": "MăngRS 是一个基于 bamboo-core、用 Rust 编写的 IBus 越南语输入法。它将 Telex、VNI、VIQR 和 Microsoft 布局与 GTK4 设置窗口、宏、自定义词典和按应用规则结合在一起。",
+      "p2": "在 Arch Linux（IBus 1.5.34、GNOME 51、Wayland；X11 已初步测试）上开发和测试。其他发行版和桌面环境尚未测试 — IBus ≥ 1.5 和 GTK4 是唯一的硬性要求。",
+      "spec_label": "项目",
+      "version_label": "最新版本",
+      "license_label": "许可证",
+      "platform_label": "平台",
+      "language_label": "编写语言",
+      "action_github": "在 GitHub 上加星",
+      "action_docs": "阅读文档"
+    },
+    "features": {
+      "title": "#功能",
+      "subtitle": "越南语输入所需的一切。",
+      "inputsLabel": "输入方式",
+      "telex": "Telex",
+      "vni": "VNI",
+      "viqr": "VIQR",
+      "microsoft": "Microsoft 布局",
+      "typingLabel": "输入选项",
+      "typing1": "新式声调位置（hòa）或传统方式（hoà）",
+      "typing2": "自由标调：hoangf → hoàng",
+      "typing3": "使用内置 38,350 词词表进行拼写检查",
+      "typing4": "自动恢复非越南语单词",
+      "typing5": "在 / : @ . _ ~ = # & % ? 后保留原键",
+      "typing6": "w → ư，[ ] → ơ ư，-- → —",
+      "typing7": "自动大写，双空格 → 句号",
+      "typing8": "支持 $TIME / $DATE 展开的宏",
+      "charsetsLabel": "输出编码",
+      "qualityLabel": "设置与质量",
+      "q1": "GTK4 设置",
+      "q2": "6 个标签页",
+      "q3": "热重载",
+      "q4": "JSON 备份",
+      "q5": "应用规则",
+      "q6": "164 项测试",
+      "charsets": "Unicode · Unicode NFD · TCVN3 · VNI · VIQR · VISCII · VPS · CP1258 · BKHCM · Vietware X · Vietware Full"
+    },
+    "modes": {
+      "title": "#显示模式",
+      "subtitle": "六种将越南语显示到屏幕的方式。",
+      "how": "工作原理",
+      "more": "更多",
+      "less": "收起",
+      "note": "uinput 模式需要 /dev/uinput，在无法向应用注入真实按键时会回退到 preedit；在 GNOME Wayland 上会作为 preedit 运行。",
+      "list": [
+        {
+          "role": "Preedit（默认）",
+          "kind": "经典",
+          "best": "适合：最广泛的兼容性",
+          "desc": "单词带下划线显示在行内，并在单词结束时提交。"
+        },
+        {
+          "role": "Non-preedit",
+          "kind": "经典",
+          "best": "适合：Firefox、GTK 应用",
+          "desc": "每个按键立即提交；出现声调时重写词尾。"
+        },
+        {
+          "role": "Surrounding text",
+          "kind": "经典",
+          "best": "适合：Sublime Text",
+          "desc": "在 non-preedit 基础上，与应用自身报告的文本进行校验。"
+        },
+        {
+          "role": "Smooth",
+          "kind": "Uinput · X11",
+          "best": "适合：终端、特殊应用",
+          "desc": "输入时转发原始按键；单词结束时用真实 Backspace 删除拉丁词尾。"
+        },
+        {
+          "role": "Super Smooth",
+          "kind": "Uinput · X11",
+          "best": "适合：快速输入",
+          "desc": "与 Smooth 相同，但在重写词尾前不做安全检查。"
+        },
+        {
+          "role": "Select",
+          "kind": "Uinput · X11",
+          "best": "适合：Backspace 表现异常的应用",
+          "desc": "Shift+← 选中词尾，Delete 删除，然后提交单词。"
+        }
+      ]
+    },
+    "install": {
+      "title": "#安装",
+      "subtitle": "从源码安装。目前尚未提供二进制安装包。",
+      "online_title": "一行命令安装",
+      "online_desc": "下载源码、构建并安装。需要 curl、Rust、IBus、GTK4 和 sudo。",
+      "source_title": "从源码构建",
+      "source_desc": "构建引擎，然后运行安装脚本。",
+      "after_title": "启用输入源",
+      "after_desc": "重启 IBus，然后在 设置 → 键盘 → 输入源 中添加 越南语 → MăngRS。用 Super+Space 切换布局。",
+      "note": "Arch、Debian/Ubuntu 和 Fedora/openSUSE 的二进制安装包尚未提供。完整说明见 docs/installation.md。"
+    },
+    "contact": {
+      "title": "#获取-mangrs",
+      "subtitle": "免费、开源、MIT 许可。",
+      "heading": "获取 MăngRS。",
+      "description": "报告错误、请求新功能，或帮助在你的发行版上测试。",
+      "link_releases": "版本发布",
+      "link_github": "GitHub",
+      "link_docs": "文档",
+      "link_issues": "问题反馈",
+      "link_email": "邮件"
+    },
+    "footer": {
+      "role": "IBus 越南语键盘 · 用 Rust 编写",
+      "explore": "浏览",
+      "resources": "资源",
+      "project": "项目",
+      "home": "首页",
+      "about": "简介",
+      "features": "功能",
+      "modes": "模式",
+      "install": "安装",
+      "contact": "获取 MăngRS",
+      "link_github": "GitHub",
+      "link_releases": "版本发布",
+      "link_docs": "文档",
+      "link_issues": "问题反馈",
+      "link_license": "MIT 许可证",
+      "link_notice": "第三方声明",
+      "copyright": "© 2026 MăngRS · MIT 许可证",
+      "built_with": "用 ❤ 和 agent 构建，灵感来自 omarchy.org"
+    }
+  },
+  "zh-TW": {
+    "site": {
+      "title": "MăngRS — IBus 越南語輸入法",
+      "description": "以 Rust 撰寫的 IBus 越南語輸入法。支援 Telex、VNI、VIQR 與 Microsoft 配置，內建拼字檢查、巨集與依應用程式規則。"
+    },
+    "nav": {
+      "about": "簡介",
+      "features": "功能",
+      "modes": "模式",
+      "install": "安裝",
+      "get": "下載"
+    },
+    "lang": {
+      "menuLabel": "選擇語言",
+      "hint": "點擊此處，切換為適合您的語言"
+    },
+    "hero": {
+      "banner_text": "v0.1.2 已發佈 — Linux · IBus · MIT 授權",
+      "tagline": "以 Rust 撰寫的 IBus 越南語鍵盤。",
+      "sub_line_1": "Telex · VNI · VIQR · Microsoft — 拼字檢查、巨集、依應用程式規則。",
+      "sub_line_2": "已在 Arch Linux、GNOME 51 與 Wayland 上測試。需要 IBus ≥ 1.5 與 GTK4。",
+      "download": "下載 v0.1.2",
+      "github": "在 GitHub 上查看"
+    },
+    "about": {
+      "title": "#簡介",
+      "subtitle": "以 Rust 重寫的越南語輸入法。",
+      "p1": "MăngRS 是一個基於 bamboo-core、以 Rust 撰寫的 IBus 越南語輸入法。它將 Telex、VNI、VIQR 與 Microsoft 配置，結合 GTK4 設定視窗、巨集、自訂辭典與依應用程式規則。",
+      "p2": "在 Arch Linux（IBus 1.5.34、GNOME 51、Wayland；X11 已初步測試）上開發與測試。其他發行版與桌面環境尚未測試 — IBus ≥ 1.5 與 GTK4 是唯一的硬性需求。",
+      "spec_label": "專案",
+      "version_label": "最新版本",
+      "license_label": "授權",
+      "platform_label": "平台",
+      "language_label": "撰寫語言",
+      "action_github": "在 GitHub 上加星",
+      "action_docs": "閱讀文件"
+    },
+    "features": {
+      "title": "#功能",
+      "subtitle": "越南語輸入所需的一切。",
+      "inputsLabel": "輸入方式",
+      "telex": "Telex",
+      "vni": "VNI",
+      "viqr": "VIQR",
+      "microsoft": "Microsoft 配置",
+      "typingLabel": "輸入選項",
+      "typing1": "新式聲調位置（hòa）或傳統方式（hoà）",
+      "typing2": "自由標調：hoangf → hoàng",
+      "typing3": "使用內建 38,350 詞詞表進行拼字檢查",
+      "typing4": "自動還原非越南語單字",
+      "typing5": "在 / : @ . _ ~ = # & % ? 後保留原鍵",
+      "typing6": "w → ư，[ ] → ơ ư，-- → —",
+      "typing7": "自動大寫，雙空格 → 句號",
+      "typing8": "支援 $TIME / $DATE 展開的巨集",
+      "charsetsLabel": "輸出編碼",
+      "qualityLabel": "設定與品質",
+      "q1": "GTK4 設定",
+      "q2": "6 個分頁",
+      "q3": "熱重載",
+      "q4": "JSON 備份",
+      "q5": "應用程式規則",
+      "q6": "164 項測試",
+      "charsets": "Unicode · Unicode NFD · TCVN3 · VNI · VIQR · VISCII · VPS · CP1258 · BKHCM · Vietware X · Vietware Full"
+    },
+    "modes": {
+      "title": "#顯示模式",
+      "subtitle": "六種將越南語顯示到螢幕的方式。",
+      "how": "運作方式",
+      "more": "更多",
+      "less": "收合",
+      "note": "uinput 模式需要 /dev/uinput，在無法向應用程式注入真實按鍵時會退回 preedit；在 GNOME Wayland 上會以 preedit 運作。",
+      "list": [
+        {
+          "role": "Preedit（預設）",
+          "kind": "經典",
+          "best": "適合：最廣泛的相容性",
+          "desc": "單字帶底線顯示在行內，並在單字結束時提交。"
+        },
+        {
+          "role": "Non-preedit",
+          "kind": "經典",
+          "best": "適合：Firefox、GTK 應用程式",
+          "desc": "每個按鍵立即提交；出現聲調時重寫字尾。"
+        },
+        {
+          "role": "Surrounding text",
+          "kind": "經典",
+          "best": "適合：Sublime Text",
+          "desc": "在 non-preedit 基礎上，與應用程式自身回報的文字進行校驗。"
+        },
+        {
+          "role": "Smooth",
+          "kind": "Uinput · X11",
+          "best": "適合：終端機、特殊應用程式",
+          "desc": "輸入時轉送原始按鍵；單字結束時以真實 Backspace 刪除拉丁字尾。"
+        },
+        {
+          "role": "Super Smooth",
+          "kind": "Uinput · X11",
+          "best": "適合：快速輸入",
+          "desc": "與 Smooth 相同，但重寫字尾前不做安全檢查。"
+        },
+        {
+          "role": "Select",
+          "kind": "Uinput · X11",
+          "best": "適合：Backspace 表現異常的應用程式",
+          "desc": "Shift+← 選取字尾，Delete 刪除，然後提交單字。"
+        }
+      ]
+    },
+    "install": {
+      "title": "#安裝",
+      "subtitle": "從原始碼安裝。目前尚未提供二進位安裝包。",
+      "online_title": "一行指令安裝",
+      "online_desc": "下載原始碼、建置並安裝。需要 curl、Rust、IBus、GTK4 與 sudo。",
+      "source_title": "從原始碼建置",
+      "source_desc": "建置引擎，然後執行安裝指令碼。",
+      "after_title": "啟用輸入來源",
+      "after_desc": "重新啟動 IBus，然後在 設定 → 鍵盤 → 輸入來源 中加入 越南語 → MăngRS。用 Super+Space 切換配置。",
+      "note": "Arch、Debian/Ubuntu 與 Fedora/openSUSE 的二進位安裝包尚未提供。完整說明見 docs/installation.md。"
+    },
+    "contact": {
+      "title": "#取得-mangrs",
+      "subtitle": "免費、開源、MIT 授權。",
+      "heading": "取得 MăngRS。",
+      "description": "回報錯誤、請求新功能，或協助在你的發行版上測試。",
+      "link_releases": "版本發佈",
+      "link_github": "GitHub",
+      "link_docs": "文件",
+      "link_issues": "問題回報",
+      "link_email": "電子郵件"
+    },
+    "footer": {
+      "role": "IBus 越南語鍵盤 · 以 Rust 撰寫",
+      "explore": "瀏覽",
+      "resources": "資源",
+      "project": "專案",
+      "home": "首頁",
+      "about": "簡介",
+      "features": "功能",
+      "modes": "模式",
+      "install": "安裝",
+      "contact": "取得 MăngRS",
+      "link_github": "GitHub",
+      "link_releases": "版本發佈",
+      "link_docs": "文件",
+      "link_issues": "問題回報",
+      "link_license": "MIT 授權",
+      "link_notice": "第三方聲明",
+      "copyright": "© 2026 MăngRS · MIT 授權",
+      "built_with": "用 ❤ 與 agent 建置，靈感來自 omarchy.org"
+    }
+  }
+}

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="catppuccin-latte">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="site.title">MăngRS — Bộ gõ tiếng Việt cho IBus</title>
+  <meta name="description" data-i18n="site.description" content="Bộ gõ tiếng Việt cho IBus, viết bằng Rust. Hỗ trợ Telex, VNI, VIQR và kiểu Microsoft cùng kiểm tra chính tả, macro và quy tắc theo ứng dụng.">
+  <meta property="og:title" data-i18n="site.title" content="MăngRS — Bộ gõ tiếng Việt cho IBus">
+  <meta property="og:description" data-i18n="site.description" content="Bộ gõ tiếng Việt cho IBus, viết bằng Rust. Hỗ trợ Telex, VNI, VIQR và kiểu Microsoft cùng kiểm tra chính tả, macro và quy tắc theo ứng dụng.">
+  <meta property="og:url" content="https://mangrs.fundoku.io.vn/">
+  <meta property="og:image" content="https://mangrs.fundoku.io.vn/assets/img/mangrs-logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" data-i18n="site.title" content="MăngRS — Bộ gõ tiếng Việt cho IBus">
+  <meta name="twitter:description" data-i18n="site.description" content="Bộ gõ tiếng Việt cho IBus, viết bằng Rust. Hỗ trợ Telex, VNI, VIQR và kiểu Microsoft cùng kiểm tra chính tả, macro và quy tắc theo ứng dụng.">
+  <meta name="twitter:image" content="https://mangrs.fundoku.io.vn/assets/img/mangrs-logo.png">
+  <meta name="theme-color" content="#eff1f5">
+  <link rel="icon" type="image/png" href="assets/img/mangrs-mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261031">
+  <script>
+      (function () {
+        try {
+          const key = "mangrs-theme";
+          const saved = localStorage.getItem(key);
+          const themes = ["tokyo-night", "catppuccin-mocha", "gruvbox", "nord", "rose-pine", "catppuccin-latte"];
+          let theme = saved || "catppuccin-latte";
+          if (!themes.includes(theme)) theme = "catppuccin-latte";
+          document.documentElement.classList.add("js");
+          document.documentElement.setAttribute("data-theme", theme);
+          const meta = document.querySelector('meta[name="theme-color"]');
+          const map = { "tokyo-night": "#20232b", "catppuccin-mocha": "#1e1e2e", "gruvbox": "#282828", "nord": "#2e3440", "rose-pine": "#191724", "catppuccin-latte": "#eff1f5" };
+          if (meta) meta.setAttribute("content", map[theme] || "#eff1f5");
+        } catch (e) { }
+      })();
+    </script>
+</head>
+
+<body>
+  <header class="hero-header">
+    <div class="hero-container header-row">
+      <div class="header-left">
+        <a class="logo-square" href="#" aria-label="MăngRS home" id="logoHome">
+          <span class="logo-mark" role="img" aria-label="MăngRS logo"></span>
+        </a>
+        <nav class="hero-nav mono">
+          <a href="#about" data-nav data-i18n="nav.about">About</a>
+          <a href="#features" data-nav data-i18n="nav.features">Features</a>
+          <a href="#modes" data-nav data-i18n="nav.modes">Modes</a>
+          <a href="#install" data-nav data-i18n="nav.install">Install</a>
+        </nav>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" id="themeToggleBtn" aria-label="Change theme" title="Change theme (T)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"></path>
+          </svg>
+        </button>
+        <div class="lang-picker" id="langPicker">
+          <button class="icon-btn" id="langToggleBtn" aria-label="Select language" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" title="EN / VI / 简 / 繁">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+            </svg>
+          </button>
+          <div class="lang-menu mono" id="langMenu" role="menu" aria-label="Select language" hidden>
+            <button class="lang-option" type="button" role="menuitemradio" data-lang="en" aria-checked="false" lang="en">
+              <span class="lang-flag" aria-hidden="true">
+                <svg viewBox="0 0 24 16">
+                  <circle cx="12" cy="8" r="6.6" fill="#2f81f7"/>
+                  <ellipse cx="12" cy="8" rx="3.1" ry="6.6" fill="none" stroke="#e6f0ff" stroke-width="1"/>
+                  <path d="M5.6 8h12.8M6.7 4.6h10.6M6.7 11.4h10.6" fill="none" stroke="#e6f0ff" stroke-width="1"/>
+                </svg>
+              </span>
+              <span class="lang-option-name">English</span>
+            </button>
+            <button class="lang-option" type="button" role="menuitemradio" data-lang="vi" aria-checked="false" lang="vi">
+              <span class="lang-flag" aria-hidden="true">
+                <svg viewBox="0 0 24 16">
+                  <rect width="24" height="16" fill="#da251d"/>
+                  <polygon fill="#ffcd00" points="12,3 13.176,6.382 16.755,6.455 13.902,8.618 14.939,12.045 12,10 9.061,12.045 10.098,8.618 7.245,6.455 10.824,6.382"/>
+                </svg>
+              </span>
+              <span class="lang-option-name">Tiếng Việt</span>
+            </button>
+            <button class="lang-option" type="button" role="menuitemradio" data-lang="zh-CN" aria-checked="false" lang="zh-CN">
+              <span class="lang-flag" aria-hidden="true">
+                <svg viewBox="0 0 24 16">
+                  <rect width="24" height="16" fill="#de2910"/>
+                  <g fill="#ffde00">
+                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(6 5) scale(3.4)"/>
+                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(11.2 2.6) scale(1.2)"/>
+                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(13.6 4.6) scale(1.2)"/>
+                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(13.6 7.4) scale(1.2)"/>
+                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(11.2 9.4) scale(1.2)"/>
+                  </g>
+                </svg>
+              </span>
+              <span class="lang-option-body">
+                <span class="lang-option-sub" lang="en">Simplified Chinese</span>
+                <span class="lang-option-name">简体中文</span>
+              </span>
+            </button>
+            <button class="lang-option" type="button" role="menuitemradio" data-lang="zh-TW" aria-checked="false" lang="zh-TW">
+              <span class="lang-flag" aria-hidden="true">
+                <svg viewBox="0 0 24 16">
+                  <rect width="24" height="16" fill="#fe0000"/>
+                  <rect width="12" height="8" fill="#000095"/>
+                  <polygon fill="#fff" points="9,4 7.449,4.388 8.598,5.5 7.061,5.061 7.5,6.598 6.388,5.449 6,7 5.612,5.449 4.5,6.598 4.939,5.061 3.402,5.5 4.551,4.388 3,4 4.551,3.612 3.402,2.5 4.939,2.939 4.5,1.402 5.612,2.551 6,1 6.388,2.551 7.5,1.402 7.061,2.939 8.598,2.5 7.449,3.612"/>
+                  <circle cx="6" cy="4" r="1.65" fill="#fff"/>
+                </svg>
+              </span>
+              <span class="lang-option-body">
+                <span class="lang-option-sub" lang="en">Traditional Chinese</span>
+                <span class="lang-option-name">繁體中文</span>
+              </span>
+            </button>
+          </div>
+        </div>
+        <a class="icon-btn" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" aria-label="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </a>
+        <a class="btn btn-hire mono" href="#install" data-nav data-i18n="nav.get">Download</a>
+        <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobileNav">
+          <span class="nav-toggle-bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="lang-hint mono" id="langHint" role="status" aria-live="polite" hidden></div>
+    <nav class="mobile-nav mono" id="mobileNav" aria-label="Mobile navigation">
+      <a href="#about" data-nav data-i18n="nav.about">About</a>
+      <a href="#features" data-nav data-i18n="nav.features">Features</a>
+      <a href="#modes" data-nav data-i18n="nav.modes">Modes</a>
+      <a href="#install" data-nav data-i18n="nav.install">Install</a>
+      <div class="mobile-nav-row">
+        <div class="mobile-nav-social">
+          <a class="btn btn-hire mobile-nav-hire mono" href="#install" data-nav aria-labelledby="mobileHireLabel">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+            </svg>
+            <span class="sr-only" id="mobileHireLabel" data-i18n="nav.get">Download</span>
+          </a>
+          <a class="icon-btn" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <section id="hero" class="hero-section">
+    <canvas id="heroFieldCanvas" class="hero-field-canvas" aria-hidden="true"></canvas>
+    <div class="hero-content">
+      <div class="hero-container hero-stack">
+        <div class="banner-pill-wrap">
+          <a class="banner-pill mono" href="https://github.com/fundokukiri/ibus-mangrs/releases/latest" target="_blank" rel="noopener">
+            <span data-i18n="hero.banner_text">v0.1.2 released — Linux · IBus · MIT License</span>
+            <span class="banner-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="wordmark-wrap">
+          <h1 class="sr-only">MăngRS</h1>
+          <canvas id="wordmarkCanvas" class="wordmark-canvas" width="900" height="271" aria-label="MăngRS"></canvas>
+        </div>
+
+        <div class="hero-sub">
+          <p class="tagline mono" data-i18n="hero.tagline">A Vietnamese keyboard for IBus, written in Rust.</p>
+          <p class="hero-line mono" data-i18n="hero.sub_line_1">Telex · VNI · VIQR · Microsoft — smart spell check, macros, per-app rules.</p>
+          <p class="hero-line mono" data-i18n="hero.sub_line_2">Tested on Arch Linux, GNOME 51 and Wayland. Needs IBus ≥ 1.5 and GTK4.</p>
+          <div class="hero-cta-row">
+            <a class="btn btn-accent mono" href="https://github.com/fundokukiri/ibus-mangrs/releases/latest" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+              </svg>
+              <span data-i18n="hero.download">Download v0.1.2</span>
+            </a>
+            <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              <span data-i18n="hero.github">View on GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <a class="hero-scroll mono" href="#about" data-nav aria-label="Scroll to about">
+          <span aria-hidden="true">[ scroll ]</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
+            <path d="M12 4v15M5.5 12.5L12 19l6.5-6.5"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section id="about" class="section">
+      <div class="container">
+        <header class="section-header">
+          <a class="section-anchor" href="#about" data-i18n="about.title">#about</a>
+          <p class="section-sub" data-i18n="about.subtitle">A Vietnamese input method, rebuilt in Rust.</p>
+        </header>
+        <div class="about-grid">
+          <div class="about-media">
+            <img src="assets/img/mangrs-logo.png" alt="MăngRS logo" loading="lazy">
+          </div>
+          <div class="about-content">
+            <div class="about-text">
+              <p data-i18n="about.p1">MăngRS is a Vietnamese input method engine for IBus, written in Rust on top of bamboo-core. It brings Telex, VNI, VIQR and the Microsoft layout together with a GTK4 settings window, macros, a custom dictionary and per-app rules.</p>
+              <p data-i18n="about.p2">Developed and tested on Arch Linux (IBus 1.5.34, GNOME 51, Wayland; X11 smoke-tested). Other distributions and desktop environments are not tested yet — IBus ≥ 1.5 and GTK4 are the only hard requirements.</p>
+            </div>
+            <div class="about-education">
+              <p class="about-edu-label mono" data-i18n="about.spec_label">Project</p>
+              <p class="about-edu-degree"><span data-i18n="about.version_label">Latest version</span> v0.1.2 · <span data-i18n="about.license_label">License</span> MIT</p>
+              <p class="about-edu-meta mono"><span data-i18n="about.platform_label">Platform</span>: Linux · IBus ≥ 1.5 · GTK4 · <span data-i18n="about.language_label">Written in</span>: Rust</p>
+            </div>
+            <div class="about-actions">
+              <a class="btn btn-primary mono" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" data-i18n="about.action_github">Star on GitHub</a>
+              <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs/tree/master/docs" target="_blank" rel="noopener" data-i18n="about.action_docs">Read the docs</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="container">
+        <header class="section-header">
+          <a class="section-anchor" href="#features" data-i18n="features.title">#features</a>
+          <p class="section-sub" data-i18n="features.subtitle">Everything a Vietnamese typist needs.</p>
+        </header>
+        <div class="skills-groups">
+          <section class="skill-group fade-in">
+            <h3 class="skill-label mono" data-i18n="features.inputsLabel">Input methods</h3>
+            <ul class="skill-tiles">
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">Telex</span></span>
+                <span class="skill-name mono" data-i18n="features.telex">Telex</span>
+              </li>
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">VNI</span></span>
+                <span class="skill-name mono" data-i18n="features.vni">VNI</span>
+              </li>
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">VIQR</span></span>
+                <span class="skill-name mono" data-i18n="features.viqr">VIQR</span>
+              </li>
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">MS</span></span>
+                <span class="skill-name mono" data-i18n="features.microsoft">Microsoft layout</span>
+              </li>
+            </ul>
+          </section>
+          <section class="skill-group fade-in">
+            <h3 class="skill-label mono" data-i18n="features.typingLabel">Typing options</h3>
+            <ul class="skill-list mono">
+              <li data-i18n="features.typing1">Modern tone placement (hòa) or traditional (hoà)</li>
+              <li data-i18n="features.typing2">Free tone marking: hoangf → hoàng</li>
+              <li data-i18n="features.typing3">Spell check from a bundled 38,350-word list</li>
+              <li data-i18n="features.typing4">Auto-restore non-Vietnamese words</li>
+              <li data-i18n="features.typing5">Raw keys after / : @ . _ ~ = # &amp; % ?</li>
+              <li data-i18n="features.typing6">w → ư, [ ] → ơ ư, -- → —</li>
+              <li data-i18n="features.typing7">Auto-capitalize and double space → period</li>
+              <li data-i18n="features.typing8">Macros with $TIME / $DATE expansion</li>
+            </ul>
+          </section>
+          <section class="skill-group fade-in">
+            <h3 class="skill-label mono" data-i18n="features.charsetsLabel">Output charsets</h3>
+            <ul class="skill-list mono">
+              <li data-i18n="features.charsets">Unicode · Unicode NFD · TCVN3 · VNI · VIQR · VISCII · VPS · CP1258 · BKHCM · Vietware X · Vietware Full</li>
+            </ul>
+          </section>
+          <section class="skill-group fade-in">
+            <h3 class="skill-label mono" data-i18n="features.qualityLabel">Settings &amp; quality</h3>
+            <ul class="skill-tiles">
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">GUI</span></span>
+                <span class="skill-name mono" data-i18n="features.q1">GTK4 settings</span>
+              </li>
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark">6</span></span>
+                <span class="skill-name mono" data-i18n="features.q2">6 tabs</span>
+              </li>
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">1s</span></span>
+                <span class="skill-name mono" data-i18n="features.q3">Hot reload</span>
+              </li>
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">JSON</span></span>
+                <span class="skill-name mono" data-i18n="features.q4">JSON backup</span>
+              </li>
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">App</span></span>
+                <span class="skill-name mono" data-i18n="features.q5">App rules</span>
+              </li>
+              <li class="skill-tile">
+                <span class="skill-icon" aria-hidden="true"><span class="skill-mark">164</span></span>
+                <span class="skill-name mono" data-i18n="features.q6">164 tests</span>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="modes" class="section">
+      <div class="container">
+        <header class="section-header">
+          <a class="section-anchor" href="#modes" data-i18n="modes.title">#display-modes</a>
+          <p class="section-sub" data-i18n="modes.subtitle">Six ways to put Vietnamese on screen.</p>
+        </header>
+        <div class="experience-list" id="workList">
+          <article class="card experience-card" data-exp-card>
+            <header class="exp-head">
+              <h3 class="exp-role" data-i18n="modes.list.0.role">Preedit (default)</h3>
+              <span class="exp-period mono" data-i18n="modes.list.0.kind">Classic</span>
+            </header>
+            <p class="exp-company mono" data-i18n="modes.list.0.best">Best for: widest compatibility</p>
+            <div class="exp-body" id="exp-body-0">
+              <div class="exp-body-inner">
+                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
+                <ul class="exp-list" id="exp-list-0">
+                  <li data-i18n="modes.list.0.desc">The word shows inline with an underline and commits when the word ends.</li>
+                </ul>
+              </div>
+            </div>
+            <span class="exp-chevron" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </article>
+          <article class="card experience-card" data-exp-card>
+            <header class="exp-head">
+              <h3 class="exp-role" data-i18n="modes.list.1.role">Non-preedit</h3>
+              <span class="exp-period mono" data-i18n="modes.list.1.kind">Classic</span>
+            </header>
+            <p class="exp-company mono" data-i18n="modes.list.1.best">Best for: Firefox, GTK apps</p>
+            <div class="exp-body" id="exp-body-1">
+              <div class="exp-body-inner">
+                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
+                <ul class="exp-list" id="exp-list-1">
+                  <li data-i18n="modes.list.1.desc">Every key commits immediately; the tail is rewritten when a mark arrives.</li>
+                </ul>
+              </div>
+            </div>
+            <span class="exp-chevron" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </article>
+          <article class="card experience-card" data-exp-card>
+            <header class="exp-head">
+              <h3 class="exp-role" data-i18n="modes.list.2.role">Surrounding text</h3>
+              <span class="exp-period mono" data-i18n="modes.list.2.kind">Classic</span>
+            </header>
+            <p class="exp-company mono" data-i18n="modes.list.2.best">Best for: Sublime Text</p>
+            <div class="exp-body" id="exp-body-2">
+              <div class="exp-body-inner">
+                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
+                <ul class="exp-list" id="exp-list-2">
+                  <li data-i18n="modes.list.2.desc">Non-preedit plus a check against the application's own text report.</li>
+                </ul>
+              </div>
+            </div>
+            <span class="exp-chevron" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </article>
+          <article class="card experience-card" data-exp-card data-extra="1" hidden>
+            <header class="exp-head">
+              <h3 class="exp-role" data-i18n="modes.list.3.role">Smooth</h3>
+              <span class="exp-period mono" data-i18n="modes.list.3.kind">Uinput · X11</span>
+            </header>
+            <p class="exp-company mono" data-i18n="modes.list.3.best">Best for: terminals, quirky apps</p>
+            <div class="exp-body" id="exp-body-3">
+              <div class="exp-body-inner">
+                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
+                <ul class="exp-list" id="exp-list-3">
+                  <li data-i18n="modes.list.3.desc">Raw keys are forwarded while typing; the Latin tail is erased with real Backspaces at word end.</li>
+                </ul>
+              </div>
+            </div>
+            <span class="exp-chevron" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </article>
+          <article class="card experience-card" data-exp-card data-extra="1" hidden>
+            <header class="exp-head">
+              <h3 class="exp-role" data-i18n="modes.list.4.role">Super Smooth</h3>
+              <span class="exp-period mono" data-i18n="modes.list.4.kind">Uinput · X11</span>
+            </header>
+            <p class="exp-company mono" data-i18n="modes.list.4.best">Best for: fast typing</p>
+            <div class="exp-body" id="exp-body-4">
+              <div class="exp-body-inner">
+                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
+                <ul class="exp-list" id="exp-list-4">
+                  <li data-i18n="modes.list.4.desc">Same as Smooth, without the safety check before rewriting the tail.</li>
+                </ul>
+              </div>
+            </div>
+            <span class="exp-chevron" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </article>
+          <article class="card experience-card" data-exp-card data-extra="1" hidden>
+            <header class="exp-head">
+              <h3 class="exp-role" data-i18n="modes.list.5.role">Select</h3>
+              <span class="exp-period mono" data-i18n="modes.list.5.kind">Uinput · X11</span>
+            </header>
+            <p class="exp-company mono" data-i18n="modes.list.5.best">Best for: apps where Backspaces misbehave</p>
+            <div class="exp-body" id="exp-body-5">
+              <div class="exp-body-inner">
+                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
+                <ul class="exp-list" id="exp-list-5">
+                  <li data-i18n="modes.list.5.desc">Shift+← selects the tail, Delete erases it, then the word commits.</li>
+                </ul>
+              </div>
+            </div>
+            <span class="exp-chevron" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </article>
+        </div>
+        <div class="work-more">
+          <button class="btn btn-ghost mono" id="workMoreBtn" type="button" aria-expanded="false" aria-controls="workList" data-i18n="modes.more">More</button>
+        </div>
+        <p class="section-note mono" data-i18n="modes.note">The uinput modes need /dev/uinput and fall back to preedit wherever real-key injection cannot reach the application; on GNOME Wayland they resolve to preedit.</p>
+      </div>
+    </section>
+
+    <section id="install" class="section">
+      <div class="container">
+        <header class="section-header">
+          <a class="section-anchor" href="#install" data-i18n="install.title">#install</a>
+          <p class="section-sub" data-i18n="install.subtitle">Install from source. Binary packages are not available yet.</p>
+        </header>
+        <div class="install-grid">
+          <article class="card install-card fade-in">
+            <h3 data-i18n="install.online_title">One-line install</h3>
+            <p data-i18n="install.online_desc">Downloads the source, builds it and installs it. Needs curl, Rust, IBus, GTK4 and sudo.</p>
+            <pre class="install-code"><code>curl -fsSL https://raw.githubusercontent.com/fundokukiri/ibus-mangrs/dev/scripts/install-online.sh | sh</code></pre>
+          </article>
+          <article class="card install-card fade-in">
+            <h3 data-i18n="install.source_title">From source</h3>
+            <p data-i18n="install.source_desc">Build the engine, then run the installer.</p>
+            <pre class="install-code"><code>cargo build --release --features gui
+./scripts/autoinstall.sh</code></pre>
+          </article>
+          <article class="card install-card install-card-after fade-in">
+            <h3 data-i18n="install.after_title">Enable the input source</h3>
+            <p data-i18n="install.after_desc">Restart IBus, then add Vietnamese → MăngRS in Settings → Keyboard → Input Sources. Switch layouts with Super+Space.</p>
+            <pre class="install-code"><code>ibus restart</code></pre>
+          </article>
+        </div>
+        <p class="section-note mono" data-i18n="install.note">Binary packages for Arch, Debian/Ubuntu and Fedora/openSUSE are not available yet. Full instructions live in docs/installation.md.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <div class="container">
+        <header class="section-header">
+          <a class="section-anchor" href="#contact" data-i18n="contact.title">#get-mangrs</a>
+          <p class="section-sub" data-i18n="contact.subtitle">Free, open source, MIT licensed.</p>
+        </header>
+        <div class="contact-inner">
+          <h2 class="contact-title" data-i18n="contact.heading">Get MăngRS.</h2>
+          <p class="contact-desc" data-i18n="contact.description">Report a bug, request a feature, or help test it on your distribution.</p>
+          <div class="contact-actions">
+            <a class="btn btn-primary mono" href="https://github.com/fundokukiri/ibus-mangrs/releases/latest" target="_blank" rel="noopener" data-i18n="contact.link_releases">Releases</a>
+            <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" data-i18n="contact.link_github">GitHub</a>
+            <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs/tree/master/docs" target="_blank" rel="noopener" data-i18n="contact.link_docs">Documentation</a>
+            <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs/issues" target="_blank" rel="noopener" data-i18n="contact.link_issues">Issues</a>
+            <button class="btn btn-ghost mono" id="emailBtn" data-email="fundokukiri@gmail.com" data-i18n="contact.link_email">Email</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+      <div class="container footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <span class="logo-mark footer-logo-mark" role="img" aria-label="MăngRS logo"></span>
+          <span class="mono">/ MăngRS</span>
+        </div>
+        <p class="footer-desc" data-i18n="footer.role">A Vietnamese keyboard for IBus · Written in Rust</p>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title mono" data-i18n="footer.explore">Explore</h4>
+        <ul class="footer-list">
+          <li><a href="#hero" data-footer data-i18n="footer.home">Home</a></li>
+          <li><a href="#about" data-footer data-i18n="footer.about">About</a></li>
+          <li><a href="#features" data-footer data-i18n="footer.features">Features</a></li>
+          <li><a href="#modes" data-footer data-i18n="footer.modes">Modes</a></li>
+          <li><a href="#install" data-footer data-i18n="footer.install">Install</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title mono" data-i18n="footer.resources">Resources</h4>
+        <ul class="footer-list">
+          <li><a href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" data-i18n="footer.link_github">GitHub</a></li>
+          <li><a href="https://github.com/fundokukiri/ibus-mangrs/releases" target="_blank" rel="noopener" data-i18n="footer.link_releases">Releases</a></li>
+          <li><a href="https://github.com/fundokukiri/ibus-mangrs/tree/master/docs" target="_blank" rel="noopener" data-i18n="footer.link_docs">Documentation</a></li>
+          <li><a href="https://github.com/fundokukiri/ibus-mangrs/issues" target="_blank" rel="noopener" data-i18n="footer.link_issues">Issues</a></li>
+          <li><a href="https://github.com/fundokukiri/ibus-mangrs/blob/master/LICENSE" target="_blank" rel="noopener" data-i18n="footer.link_license">MIT License</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-title mono" data-i18n="footer.project">Project</h4>
+        <ul class="footer-list">
+          <li><a href="#contact" data-footer data-i18n="footer.contact">Get MăngRS</a></li>
+          <li><a href="https://github.com/fundokukiri/ibus-mangrs/blob/master/NOTICE.md" target="_blank" rel="noopener" data-i18n="footer.link_notice">Third-party notices</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p class="footer-copy" data-i18n="footer.copyright">© 2026 MăngRS · MIT License</p>
+      <p class="footer-note mono" data-i18n="footer.built_with">Built with ❤ and agents, inspired by omarchy.org</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js?v=20261031"></script>
+</body>
+
+</html>

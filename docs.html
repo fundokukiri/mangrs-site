@@ -183,6 +183,7 @@
           <li><a href="#cai-dat">Cài đặt</a></li>
           <li><a href="#su-dung">Sử dụng</a></li>
           <li><a href="#macro-tu-dien">Macro &amp; từ điển</a></li>
+          <li><a href="#kiem-thu">Kiểm thử &amp; tương thích</a></li>
           <li><a href="#faq">FAQ &amp; sự cố</a></li>
           <li><a href="#phat-trien">Phát triển</a></li>
         </ul>
@@ -207,6 +208,7 @@
             <li><strong>11 bảng mã xuất</strong>: Unicode (mặc định), Unicode NFD, TCVN3, VNI, VIQR, VISCII, VPS, CP1258, BKHCM, Vietware X, Vietware Full.</li>
             <li><strong>8 chế độ hiển thị</strong>, chọn được riêng cho từng ứng dụng bằng App Rules.</li>
             <li><strong>Tuỳ chọn gõ</strong>: dấu theo kiểu hiện đại (<code>hòa</code> so với <code>hoà</code>), tự do đặt dấu (<code>hoangf</code> → <code>hoàng</code>), kiểm tra chính tả với 38 350 từ, tự khôi phục từ không phải tiếng Việt, bỏ qua phím thô sau ký tự URL/email/đường dẫn (<code>/ : @ . _ ~ = # &amp; % ?</code>), <code>w</code> → <code>ư</code>, <code>[</code>/<code>]</code> → <code>ơ</code>/<code>ư</code>, <code>--</code> → <code>—</code>, tự viết hoa, hai dấu cách → dấu chấm.</li>
+            <li><strong>Hành vi từ đang gõ khi click chuột / nghỉ gõ</strong> (3 mức, chọn trong panel): <em>Bamboo</em> (mặc định — từ nghỉ 800 ms tự commit tại chỗ, phím dấu gõ muộn vẫn thêm dấu: <code>tung</code> + chờ + <code>f</code> → <code>tùng</code>), <em>Keep word</em> (click làm ẩn từ, click quay lại thì khôi phục) và <em>Relocate</em> (từ luôn được gửi tới đúng vị trí nơi nó được gõ). Từ viết tắt tiếng Việt giữ nguyên (<code>ddc</code> → <code>đc</code>, <code>ddk</code> → <code>đk</code>).</li>
             <li><strong>Macro</strong> mở rộng <code>$TIME</code> / <code>$DATE</code>, viết hoa thông minh; từ viết tắt trùng với từ tiếng Việt hợp lệ sẽ không tự mở rộng khi bạn đang gõ từ đó.</li>
             <li><strong>Từ điển riêng</strong>: các từ không bao giờ bị khôi phục về phím thô.</li>
             <li><strong>Cửa sổ cài đặt GTK4</strong> (6 thẻ, tiếng Việt); mọi thay đổi có hiệu lực trong ~1 giây.</li>
@@ -298,6 +300,15 @@ echo uinput | sudo tee /etc/modules-load.d/uinput.conf   # nạp mỗi lần kh�
             Gõ lặp phím dấu (<code>teeen</code>, <code>toool</code>) để huỷ dấu đó.</li>
           </ul>
 
+          <h3>Từ đang gõ khi click chuột hoặc nghỉ gõ</h3>
+          <p>Có ba hành vi, chọn trong panel nguồn nhập:</p>
+          <ul>
+            <li><strong>Bamboo</strong> (mặc định): từ để idle 800 ms sẽ commit tại chỗ; phím dấu gõ sau đó vẫn áp dụng dấu lên từ đã commit (<code>tung</code> + chờ + <code>f</code> → <code>tùng</code>).</li>
+            <li><strong>Keep word</strong>: click chỗ khác làm ẩn từ đang gõ, click quay lại thì từ hiện lại.</li>
+            <li><strong>Relocate</strong>: từ luôn được gửi tới đúng vị trí nơi nó được gõ.</li>
+          </ul>
+          <p>Các từ viết tắt tiếng Việt thông dụng giữ nguyên không bị biến đổi: <code>ddc</code> → <code>đc</code>, <code>ddk</code> → <code>đk</code>.</p>
+
           <h3>App Rules — chế độ theo ứng dụng</h3>
           <p>Thẻ <em>Applications</em> trong GUI, mỗi dòng một quy tắc <code>tên-tiến-trình=chế-độ</code>:</p>
           <pre class="install-code"><code>sublime_text=surrounding
@@ -323,6 +334,36 @@ dc=địa chỉ: $TIME</code></pre>
           <h3>Từ điển riêng</h3>
           <p><code>~/.config/ibus-mangrs/dictionary.txt</code>, mỗi dòng một từ. Các từ trong file này không bao giờ bị
           khôi phục về phím thô. Bật bằng mục <em>Dùng từ điển của tôi</em> trong menu hoặc GUI.</p>
+        </section>
+
+        <section id="kiem-thu">
+          <h2>Kiểm thử &amp; tương thích</h2>
+
+          <h3>Ma trận tương thích</h3>
+          <p>Kết quả gõ thật theo từng ứng dụng, chế độ hiển thị và bộ workload, đo bằng công cụ kiểm thử
+          (<code>test/typing_tool.py</code>) — gõ qua <code>/dev/uinput</code> nên bộ gõ nhận phím y hệt bàn phím thật.
+          PASS nghĩa là kết quả đọc lại khớp từng mã ký tự. Trạng thái: <strong>PASS</strong> đã xác minh ·
+          <strong>OK</strong> kiểm tra thủ công · <strong>FAIL</strong> mất/thừa ký tự · <strong>—</strong> chưa đo.</p>
+          <table class="docs-table">
+            <tr><th>Ứng dụng / trường</th><th>Preedit</th><th>Non-preedit</th><th>Surrounding</th><th>Ghi chú</th></tr>
+            <tr><td>GNOME Text Editor (GNOME 51, Wayland)</td><td>PASS</td><td>PASS</td><td>PASS</td><td>Cả 3 chế độ với engine backspace kiểu unikey</td></tr>
+            <tr><td>Chrome omnibox</td><td>PASS</td><td>OK</td><td>OK</td><td>Từ đầu tiên cạnh gợi ý autocomplete có thể lệch</td></tr>
+            <tr><td>Firefox address bar</td><td>PASS</td><td>OK</td><td>OK</td><td>Xoá ở surrounding-text hoạt động đúng</td></tr>
+            <tr><td>Chế độ uinput trên GNOME Wayland</td><td colspan="3">quay về preedit</td><td>uinput không tới được ứng dụng qua mutter; mục tiêu thật là X11</td></tr>
+            <tr><td>GNOME Terminal, kitty, VS Code, Qt, LibreOffice…</td><td colspan="3">—</td><td>Chưa đo; sẽ bổ sung dần</td></tr>
+          </table>
+
+          <h3>Hiệu năng</h3>
+          <p>Mục tiêu: độ trễ trên từng phím phải vô hình khi gõ nhanh. <code>test/perf_tool.py</code> đo khoảng cách
+          giữa lúc bơm phím qua uinput và lúc engine xử lý <code>ProcessKeyEvent</code>; chỉ số quan trọng là
+          <strong>p95</strong> (các phím chậm mới là cái người dùng cảm nhận), mục tiêu là p95 tốt dưới một khung hình
+          (~16 ms) ở mọi chế độ và mọi ứng dụng. Đo lần đầu trên Chrome omnibox: overhead bơm phím p50 ≈ 72 µs,
+          p95 ≈ 106 µs.</p>
+
+          <h3>Chạy bộ kiểm thử</h3>
+          <pre class="install-code"><code>cargo test                      # 164 unit test, gồm bảng vàng 480 ca
+python3 test/typing_tool.py     # 29 từ khó, xoay vòng 3 chế độ, đọc lại kiểm chứng
+python3 test/perf_tool.py --label "text-editor"   # đo độ trễ từng phím</code></pre>
         </section>
 
         <section id="faq">

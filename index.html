@@ -1,536 +1,860 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="catppuccin-latte">
-
+<html lang="vi" data-theme="gruvbox">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="site.title">MăngRS — Bộ gõ tiếng Việt cho IBus</title>
-  <meta name="description" data-i18n="site.description" content="Bộ gõ tiếng Việt cho IBus, viết bằng Rust. Hỗ trợ Telex, VNI, VIQR và kiểu Microsoft cùng kiểm tra chính tả, macro và quy tắc theo ứng dụng.">
-  <meta property="og:title" data-i18n="site.title" content="MăngRS — Bộ gõ tiếng Việt cho IBus">
-  <meta property="og:description" data-i18n="site.description" content="Bộ gõ tiếng Việt cho IBus, viết bằng Rust. Hỗ trợ Telex, VNI, VIQR và kiểu Microsoft cùng kiểm tra chính tả, macro và quy tắc theo ứng dụng.">
-  <meta property="og:url" content="https://mangrs.fundoku.io.vn/">
-  <meta property="og:image" content="https://mangrs.fundoku.io.vn/assets/img/mangrs-logo.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" data-i18n="site.title" content="MăngRS — Bộ gõ tiếng Việt cho IBus">
-  <meta name="twitter:description" data-i18n="site.description" content="Bộ gõ tiếng Việt cho IBus, viết bằng Rust. Hỗ trợ Telex, VNI, VIQR và kiểu Microsoft cùng kiểm tra chính tả, macro và quy tắc theo ứng dụng.">
-  <meta name="twitter:image" content="https://mangrs.fundoku.io.vn/assets/img/mangrs-logo.png">
-  <meta name="theme-color" content="#eff1f5">
-  <link rel="icon" type="image/png" href="assets/img/mangrs-mark.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261031">
-  <script>
-      (function () {
-        try {
-          const key = "mangrs-theme";
-          const saved = localStorage.getItem(key);
-          const themes = ["tokyo-night", "catppuccin-mocha", "gruvbox", "nord", "rose-pine", "catppuccin-latte"];
-          let theme = saved || "catppuccin-latte";
-          if (!themes.includes(theme)) theme = "catppuccin-latte";
-          document.documentElement.classList.add("js");
-          document.documentElement.setAttribute("data-theme", theme);
-          const meta = document.querySelector('meta[name="theme-color"]');
-          const map = { "tokyo-night": "#20232b", "catppuccin-mocha": "#1e1e2e", "gruvbox": "#282828", "nord": "#2e3440", "rose-pine": "#191724", "catppuccin-latte": "#eff1f5" };
-          if (meta) meta.setAttribute("content", map[theme] || "#eff1f5");
-        } catch (e) { }
-      })();
-    </script>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MăngRS — Bộ gõ tiếng Việt cho IBus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem("mangrs-theme");
+      var th = ["tokyo-night", "catppuccin-mocha", "gruvbox", "nord", "rose-pine", "catppuccin-latte"];
+      document.documentElement.dataset.theme = th.indexOf(saved) !== -1 ? saved : "gruvbox";
+    } catch (e) {}
+  })();
+</script>
+<style>
+  :root[data-theme="catppuccin-mocha"] {
+    --bg: #1e1e2e; --bg-soft: #181825; --card: #262637; --card-2: #2b2b3d;
+    --border: #3a3a52; --text: #e2e2f0; --muted: #a2a2bd; --accent: #7ee0a3;
+    --accent-ink: #10241a; --code-bg: #14141f; --chip: #32324a;
+  }
+  :root[data-theme="tokyo-night"] {
+    --bg: #1a1b26; --bg-soft: #16161e; --card: #24283b; --card-2: #1f2335;
+    --border: #2f334d; --text: #c0caf5; --muted: #7d84ac; --accent: #7aa2f7;
+    --accent-ink: #10121a; --code-bg: #101017; --chip: #2a2f47;
+  }
+  :root[data-theme="gruvbox"] {
+    --bg: #282828; --bg-soft: #1d2021; --card: #32302f; --card-2: #3c3836;
+    --border: #45403d; --text: #ebdbb2; --muted: #a89984; --accent: #b8bb26;
+    --accent-ink: #1d2021; --code-bg: #1d2021; --chip: #3c3836;
+  }
+  :root[data-theme="nord"] {
+    --bg: #2e3440; --bg-soft: #292e39; --card: #3b4252; --card-2: #353c48;
+    --border: #434c5e; --text: #eceff4; --muted: #98a4bb; --accent: #88c0d0;
+    --accent-ink: #20242c; --code-bg: #242933; --chip: #3f4a5c;
+  }
+  :root[data-theme="rose-pine"] {
+    --bg: #191724; --bg-soft: #1f1d2e; --card: #26233a; --card-2: #1f1d2e;
+    --border: #403d52; --text: #e0def4; --muted: #908caa; --accent: #9ccfd8;
+    --accent-ink: #191724; --code-bg: #14121f; --chip: #2a273f;
+  }
+  :root[data-theme="catppuccin-latte"] {
+    --bg: #eff1f5; --bg-soft: #e6e9ef; --card: #ffffff; --card-2: #f0f1f7;
+    --border: #bcc0cc; --text: #4c4f69; --muted: #6c6f85; --accent: #40a02b;
+    --accent-ink: #ffffff; --code-bg: #22222f; --chip: #e6e9ef;
+  }
+  * { box-sizing: border-box; }
+  :root { --pixel: "JetBrains Mono", "SF Mono", ui-monospace, monospace; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 15px; line-height: 1.65;
+  }
+  .wrap { max-width: 1020px; margin: 0 auto; padding: 0 1.25rem; }
 
+  /* ---- top bar ---- */
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px); border-bottom: 1px solid var(--border);
+  }
+  .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-family: var(--pixel); }
+  .brand .mark {
+    width: 32px; height: 32px; display: block; object-fit: contain;
+  }
+  .topbar nav { display: flex; gap: 1.1rem; font-size: 0.82rem; }
+  .topbar nav a { color: var(--muted); text-decoration: none; }
+  .topbar nav a:hover { color: var(--text); }
+  .gh {
+    display: inline-grid; place-items: center;
+    width: 36px; height: 36px; border-radius: 0;
+    border: 1px solid var(--border); background: var(--card); color: var(--text);
+  }
+  .gh:hover { border-color: var(--accent); color: var(--accent); }
+  .iconb {
+    margin-left: 0.9rem; display: inline-grid; place-items: center;
+    width: 36px; height: 36px; border-radius: 0; cursor: pointer;
+    border: 1px solid var(--border); background: var(--card); color: var(--text);
+  }
+  .iconb:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---- hero ---- */
+  .hero {
+    position: relative; padding: 3.4rem 0 3.2rem;
+    background:
+      repeating-linear-gradient(0deg, var(--bg-soft) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(90deg, var(--bg-soft) 0 1px, transparent 1px 28px);
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(620px 420px at 72% 38%, rgba(137, 180, 250, 0.14), transparent 65%),
+      radial-gradient(520px 400px at 18% 12%, rgba(203, 166, 247, 0.11), transparent 65%),
+      radial-gradient(460px 340px at 40% 88%, rgba(166, 227, 161, 0.09), transparent 65%),
+      linear-gradient(180deg, transparent 0%, var(--bg) 94%);
+  }
+  .hero .px {
+    position: absolute; pointer-events: none; opacity: 0.5;
+    image-rendering: pixelated;
+  }
+  .hero .px.p1 { width: 14px; height: 14px; background: #cba6f7; top: 16%; left: 44%; animation: floaty 7s ease-in-out infinite; }
+  .hero .px.p2 { width: 9px; height: 9px; background: #89b4fa; top: 64%; left: 46%; animation: floaty 9s ease-in-out 1.2s infinite reverse; }
+  .hero .px.p3 { width: 11px; height: 11px; background: #a6e3a1; top: 24%; right: 6%; animation: floaty 8s ease-in-out 0.6s infinite; }
+  .hero .px.p4 { width: 7px; height: 7px; background: #f9e2af; bottom: 14%; right: 30%; animation: floaty 10s ease-in-out 2s infinite reverse; }
+  .hero .px.p5 { width: 12px; height: 12px; background: #f5c2e7; bottom: 26%; left: 8%; animation: floaty 7.5s ease-in-out 0.3s infinite; }
+  .hero .px.p6 { width: 6px; height: 6px; background: #94e2d5; top: 8%; right: 38%; animation: floaty 11s ease-in-out 1.6s infinite; }
+  @keyframes floaty {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-16px); }
+  }
+  .hero-inner {
+    position: relative; display: grid; grid-template-columns: 0.9fr 1.25fr;
+    gap: 2.2rem; align-items: center; max-width: 1140px; margin: 0 auto;
+  }
+  .hero-word { position: relative; margin-bottom: 1.6rem; }
+  .hero-word .wordmark-wrap { max-width: 680px; margin: 0 auto; }
+  .hero-word .wordmark-canvas {
+    display: block; width: 100%; height: auto; cursor: crosshair;
+  }
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .hero .kicker {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    font-size: 0.72rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 1.1rem;
+    border: 1px solid var(--accent); padding: 0.32rem 0.7rem;
+  }
+  .hero .kicker .blinksq {
+    width: 7px; height: 7px; background: var(--accent);
+    animation: blink 1s steps(1) infinite;
+  }
+  .hero h1 {
+    margin: 0 0 0.9rem; font-size: clamp(1.9rem, 4.6vw, 2.9rem);
+    font-family: var(--pixel); font-weight: 800; line-height: 1.18;
+  }
+  .hero h1 .hl { color: var(--accent); position: relative; white-space: nowrap; }
+  .hero h1 .hl::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0.02em;
+    height: 0.14em; background: var(--accent); opacity: 0.35;
+  }
+  .hero .sub { margin: 0 0 1.6rem; max-width: 30rem; color: var(--muted); font-size: 0.95rem; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-bottom: 1.6rem; }
+  .btnx {
+    font-family: var(--pixel); font-size: 0.9rem; font-weight: 700;
+    padding: 0.68rem 1.25rem; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btnx.solid { background: var(--accent); color: var(--accent-ink); border: 2px solid var(--accent); }
+  .btnx.solid:hover { filter: brightness(1.12); }
+  .btnx.ghost { color: var(--text); border: 2px solid var(--border); background: var(--card); }
+  .btnx.ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .hero-badges span {
+    font-size: 0.72rem; color: var(--muted);
+    border: 1px dashed var(--border); background: var(--bg-soft);
+    padding: 0.3rem 0.6rem;
+  }
+  .hero-badges b { color: var(--accent); font-weight: 700; }
+
+  /* ---- retro terminal ---- */
+  .terminal {
+    position: relative; margin: 0; max-width: none;
+    border: 2px solid #45475a; border-radius: 0;
+    background: #1e1e2e; text-align: left;
+    box-shadow: 0 0 0 2px #000, 0 0 60px -10px rgba(137, 180, 250, 0.5);
+    font-family: "VT323", "JetBrains Mono", ui-monospace, monospace;
+    image-rendering: pixelated;
+    animation: glowpulse 3.2s ease-in-out infinite;
+  }
+  @keyframes glowpulse {
+    0%, 100% { box-shadow: 0 0 0 2px #000, 0 0 34px -10px rgba(137, 180, 250, 0.4); }
+    50% { box-shadow: 0 0 0 2px #000, 0 0 70px -6px rgba(203, 166, 247, 0.55); }
+  }
+  .terminal .tag {
+    position: absolute; top: -1.05rem; right: 0.9rem;
+    background: var(--bg); color: var(--accent);
+    border: 1px solid var(--accent); padding: 0.1rem 0.55rem;
+    font-family: var(--pixel); font-size: 0.68rem; letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 0.45rem;
+    background: #11111b; color: #cdd6f4;
+    padding: 0.42rem 0.7rem; font-size: 0.95rem;
+    border-bottom: 1px solid #313244;
+  }
+  .term-bar .sq { width: 11px; height: 11px; flex: none; }
+  .term-bar .sq.r { background: #f38ba8; }
+  .term-bar .sq.y { background: #f9e2af; }
+  .term-bar .sq.g { background: #a6e3a1; }
+  .term-bar .tab {
+    margin-left: 0.7rem; padding: 0.05rem 0.8rem;
+    background: #1e1e2e; color: #a6e3a1;
+    border: 1px solid #313244; border-bottom: none;
+    font-size: 0.9rem; letter-spacing: 0.04em;
+  }
+  .term-bar .title { flex: 1; text-align: right; color: #6c7086; font-size: 0.85rem; }
+  .term-body {
+    position: relative; padding: 1rem 1.1rem 1.15rem;
+    color: #cdd6f4; font-size: 1.12rem; line-height: 1.55;
+    min-height: 8.2em; text-shadow: 0 0 5px rgba(202, 211, 245, 0.18);
+  }
+  .term-body .seg {
+    display: inline-block; padding: 0 0.5em; margin-right: 0.3em;
+    color: #11111b; font-weight: 700;
+  }
+  .term-body .seg.g { background: #a6e3a1; }
+  .term-body .seg.b { background: #89b4fa; }
+  .term-body .seg.m { background: #cba6f7; }
+  .term-body .dim { color: #6c7086; }
+  .term-body .dim .c1 { color: #a6e3a1; }
+  .term-body .dim .c2 { color: #89b4fa; }
+  .term-body .dim .c3 { color: #f9e2af; }
+  .term-body .dim .c4 { color: #cba6f7; }
+  /* scanlines + vignette CRT */
+  .term-body::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.13) 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse at center, transparent 68%, rgba(0,0,0,0.32) 100%);
+  }
+  .blockcaret {
+    display: inline-block; width: 0.55em; height: 1em;
+    background: #a6e3a1; vertical-align: text-bottom;
+    box-shadow: 0 0 9px rgba(166, 227, 161, 0.85);
+    animation: blink 0.85s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ---- tab card ---- */
+  .doccard {
+    border: 1px solid var(--border); border-radius: 0;
+    background: var(--card); overflow: hidden; margin-bottom: 3.5rem;
+    box-shadow: 0 18px 45px -30px rgba(0,0,0,.55);
+  }
+  .tabbar {
+    display: flex; flex-wrap: nowrap; gap: 0.25rem;
+    padding: 0.6rem 0.6rem; border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .tabbar::-webkit-scrollbar { display: none; }
+  .tabbar button {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    white-space: nowrap; flex: none;
+    border: 1px solid transparent; background: transparent; color: var(--muted);
+    font-family: var(--pixel); font-size: 0.78rem; font-weight: 600; padding: 0.48rem 0.72rem;
+    border-radius: 0; cursor: pointer;
+  }
+  .tabbar button:hover { color: var(--text); background: var(--chip); }
+  .tabbar button.on {
+    color: var(--accent-ink); background: var(--accent); font-weight: 700;
+  }
+  .panel { display: none; padding: 1.8rem 2rem 2.2rem; }
+  .panel.on { display: block; }
+
+  .rustsig {
+    margin: 0 0 0.35rem; font-family: var(--pixel); font-size: 0.78rem;
+    color: #6c7086; letter-spacing: 0.01em;
+  }
+  .rustsig .k { color: #cba6f7; }
+  .rustsig .t { color: #89b4fa; }
+  .panel h2 { display: flex; align-items: center; gap: 0.55rem; margin: 0 0 0.3rem; font-size: 1.1rem; font-family: var(--pixel); letter-spacing: 0.01em; }
+  .panel h2 .ico { color: var(--accent); }
+  .panel .lede { color: var(--muted); font-size: 0.86rem; margin: 0 0 1.4rem; }
+  .panel h3 { font-size: 0.92rem; margin: 1.7rem 0 0.5rem; font-family: var(--pixel); letter-spacing: 0.01em; }
+
+  /* ---- option table ---- */
+  table.opt { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  table.opt th, table.opt td { padding: 0.62rem 0.8rem; text-align: left; }
+  table.opt thead th {
+    background: var(--bg-soft); color: var(--text); font-size: 0.74rem;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  table.opt thead th:first-child { border-radius: 10px 0 0 10px; }
+  table.opt thead th:last-child { border-radius: 0 10px 10px 0; }
+  table.opt tbody tr { border-bottom: 1px solid var(--border); }
+  table.opt td { color: var(--muted); }
+  table.opt td:first-child { color: var(--text); font-weight: 600; }
+  table.opt .def { color: var(--accent); font-weight: 600; white-space: nowrap; }
+
+  /* ---- numbered steps ---- */
+  .step {
+    display: grid; grid-template-columns: 2.4rem 1fr; gap: 0.4rem 0.9rem;
+    padding: 1.15rem 1.2rem; border: 1px solid var(--border);
+    border-radius: 0; background: var(--card-2); margin-bottom: 0.9rem;
+  }
+  .step .n {
+    grid-row: span 2; width: 2.4rem; height: 2.4rem; border-radius: 0;
+    background: var(--chip); color: var(--accent); font-weight: 800;
+    display: grid; place-items: center; font-size: 0.82rem;
+  }
+  .step h4 { margin: 0.25rem 0 0.2rem; font-size: 0.95rem; font-family: var(--pixel); }
+  .step p { margin: 0 0 0.7rem; color: var(--muted); font-size: 0.84rem; }
+  .step .code { grid-column: 2; }
+
+  /* ---- code ---- */
+  .code {
+    position: relative; background: var(--code-bg); color: #d0f5e0;
+    border-radius: 0; padding: 0.75rem 3.2rem 0.75rem 1rem;
+    font-size: 0.8rem; overflow-x: auto; border: 1px solid #000;
+  }
+  .code pre { margin: 0; white-space: pre; font-family: inherit; }
+  .copy {
+    position: absolute; top: 0.45rem; right: 0.45rem;
+    border: 1px solid var(--border); background: var(--card); color: var(--muted);
+    border-radius: 0; width: 1.9rem; height: 1.9rem; cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .copy:hover { color: var(--text); }
+  .copy.ok { color: var(--accent); border-color: var(--accent); }
+
+  /* ---- faq ---- */
+  details.faq {
+    border: 1px solid var(--border); border-radius: 0;
+    background: var(--card-2); margin-bottom: 0.7rem; overflow: hidden;
+  }
+  details.faq summary::before {
+    content: "#[qa]"; color: #cba6f7; font-weight: 700; margin-right: 0.6rem; font-size: 0.8rem;
+  }
+  details.faq summary {
+    cursor: pointer; padding: 0.85rem 1.1rem; font-size: 0.88rem; font-weight: 600; font-family: var(--pixel);
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after { content: "+"; color: var(--accent); font-size: 1.1rem; }
+  details.faq[open] summary::after { content: "–"; }
+  details.faq .a { padding: 0 1.1rem 1rem; color: var(--muted); font-size: 0.85rem; }
+
+  .slider {
+    display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.6rem; align-items: center;
+    border: 1px solid var(--border); background: var(--card-2);
+    padding: 0.6rem;
+  }
+  .sl-stage { min-width: 0; }
+  .sl-stage img {
+    display: block; width: 100%; height: 430px; object-fit: contain;
+    background: #11111b; cursor: zoom-in;
+    transition: opacity 0.25s ease;
+  }
+  .sl-stage img:hover { outline: 2px solid var(--accent); }
+  .sl-stage img.fade { opacity: 0; }
+  .sl-nav {
+    width: 46px; height: 46px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); cursor: pointer;
+    font-family: var(--pixel); font-size: 1rem;
+  }
+  .sl-nav:hover { border-color: var(--accent); color: var(--accent); }
+  .sl-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.8rem; margin-top: 0.6rem; flex-wrap: wrap;
+  }
+  .sl-dots { display: flex; gap: 0.35rem; }
+  .sl-dots button {
+    width: 15px; height: 15px; border: 1px solid var(--border);
+    background: transparent; cursor: pointer; padding: 0;
+  }
+  .sl-dots button:hover { border-color: var(--accent); }
+  .sl-dots button.on { background: var(--accent); border-color: var(--accent); }
+  .sl-cap {
+    font-size: 0.78rem; color: var(--muted);
+    display: flex; align-items: baseline; gap: 0.6rem; min-width: 0;
+  }
+  .sl-cap b { color: var(--text); font-weight: 600; }
+  @media (max-width: 640px) { .sl-stage img { height: 260px; } }
+
+  /* lightbox */
+  #lightbox {
+    position: fixed; inset: 0; z-index: 50; display: none;
+    background: rgba(10, 10, 16, 0.88); backdrop-filter: blur(4px);
+    place-items: center; padding: 2rem; cursor: zoom-out;
+  }
+  #lightbox.on { display: grid; }
+  #lightbox img {
+    max-width: min(1100px, 94vw); max-height: 88vh;
+    border: 2px solid var(--accent); background: #11111b;
+  }
+  #lightbox .cap {
+    position: fixed; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+    color: #cdd6f4; font-size: 0.8rem; background: #1e1e2e;
+    border: 1px solid #45475a; padding: 0.35rem 0.9rem;
+  }
+
+  .foot {
+    border-top: 1px solid var(--border); background: var(--bg-soft);
+    padding: 2.2rem 0 2.4rem; margin-top: 1rem;
+  }
+  .foot-in {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.7rem;
+  }
+  .foot-right {
+    display: flex; flex-direction: column; align-items: center; gap: 0.55rem;
+    width: 100%;
+  }
+  .foot-links { margin: 0; display: flex; justify-content: center; gap: 1.1rem; }
+  .foot-links a { color: var(--muted); text-decoration: none; font-size: 0.8rem; }
+  .foot-links a:hover { color: var(--accent); }
+
+  .note {
+    border: 1px dashed var(--border); border-radius: 0;
+    background: var(--bg-soft); color: var(--muted);
+    padding: 0.75rem 1rem; font-size: 0.8rem; margin-top: 1.3rem;
+  }
+  @media (max-width: 860px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .hero .sub { max-width: none; }
+    .hero-word .wordmark-wrap { max-width: 560px; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 14px; }
+    .hero { padding: 2.4rem 0 2.2rem; }
+    .hero-inner { gap: 1.6rem; }
+    .hero .sub { font-size: 0.88rem; }
+    .hero-cta { gap: 0.5rem; margin-bottom: 1.2rem; }
+    .btnx { font-size: 0.8rem; padding: 0.6rem 0.9rem; }
+    .hero-badges { gap: 0.35rem; }
+    .topbar { padding: 0.7rem 0.9rem; }
+    .topbar nav { display: none; }
+    .brand .mark { width: 28px; height: 28px; }
+    .panel { padding: 1.2rem 0.9rem 1.5rem; }
+    .panel .lede { font-size: 0.8rem; }
+    .rustsig { font-size: 0.68rem; }
+    table.opt { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .opt th, .opt td { padding: 0.5rem 0.55rem; font-size: 0.76rem; white-space: normal; }
+    .step { grid-template-columns: 2rem 1fr; padding: 0.9rem 0.85rem; }
+    .step .n { width: 2rem; height: 2rem; font-size: 0.75rem; }
+    .code { font-size: 0.72rem; padding: 0.7rem 2.6rem 0.7rem 0.8rem; }
+    .term-body { font-size: 1rem; min-height: 9em; }
+    .term-bar .title { display: none; }
+    .sl-nav { width: 38px; height: 38px; font-size: 0.85rem; }
+    .sl-stage img { height: 250px; }
+    .sl-cap { flex-wrap: wrap; gap: 0.3rem 0.5rem; }
+    details.faq summary { font-size: 0.82rem; padding: 0.75rem 0.9rem; }
+    details.faq .a { font-size: 0.8rem; }
+    .foot-in { gap: 0.9rem; }
+    .foot .foot-links { flex-wrap: wrap; }
+  }
+</style>
+</head>
 <body>
-  <header class="hero-header">
-    <div class="hero-container header-row">
-      <div class="header-left">
-        <a class="logo-square" href="#" aria-label="MăngRS home" id="logoHome">
-          <span class="logo-mark" role="img" aria-label="MăngRS logo"></span>
-        </a>
-        <nav class="hero-nav mono">
-          <a href="#about" data-nav data-i18n="nav.about">About</a>
-          <a href="#features" data-nav data-i18n="nav.features">Features</a>
-          <a href="#modes" data-nav data-i18n="nav.modes">Modes</a>
-          <a href="#install" data-nav data-i18n="nav.install">Install</a>
-        </nav>
-      </div>
-      <div class="header-right">
-        <button class="icon-btn" id="themeToggleBtn" aria-label="Change theme" title="Change theme (T)">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"></path>
-          </svg>
+  <header class="topbar">
+    <div class="brand"><img class="mark" src="assets/img/mangrs-mark.png" alt="Logo MăngRS"> MăngRS</div>
+    <div>
+      <button class="iconb" id="themeToggleBtn" aria-label="Đổi theme" title="Đổi theme (phím T)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m7.08 7.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m7.08-7.08l4.24-4.24"></path></svg>
         </button>
-        <div class="lang-picker" id="langPicker">
-          <button class="icon-btn" id="langToggleBtn" aria-label="Select language" aria-haspopup="menu" aria-expanded="false" aria-controls="langMenu" title="EN / VI / 简 / 繁">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
-            </svg>
-          </button>
-          <div class="lang-menu mono" id="langMenu" role="menu" aria-label="Select language" hidden>
-            <button class="lang-option" type="button" role="menuitemradio" data-lang="en" aria-checked="false" lang="en">
-              <span class="lang-flag" aria-hidden="true">
-                <svg viewBox="0 0 24 16">
-                  <circle cx="12" cy="8" r="6.6" fill="#2f81f7"/>
-                  <ellipse cx="12" cy="8" rx="3.1" ry="6.6" fill="none" stroke="#e6f0ff" stroke-width="1"/>
-                  <path d="M5.6 8h12.8M6.7 4.6h10.6M6.7 11.4h10.6" fill="none" stroke="#e6f0ff" stroke-width="1"/>
-                </svg>
-              </span>
-              <span class="lang-option-name">English</span>
-            </button>
-            <button class="lang-option" type="button" role="menuitemradio" data-lang="vi" aria-checked="false" lang="vi">
-              <span class="lang-flag" aria-hidden="true">
-                <svg viewBox="0 0 24 16">
-                  <rect width="24" height="16" fill="#da251d"/>
-                  <polygon fill="#ffcd00" points="12,3 13.176,6.382 16.755,6.455 13.902,8.618 14.939,12.045 12,10 9.061,12.045 10.098,8.618 7.245,6.455 10.824,6.382"/>
-                </svg>
-              </span>
-              <span class="lang-option-name">Tiếng Việt</span>
-            </button>
-            <button class="lang-option" type="button" role="menuitemradio" data-lang="zh-CN" aria-checked="false" lang="zh-CN">
-              <span class="lang-flag" aria-hidden="true">
-                <svg viewBox="0 0 24 16">
-                  <rect width="24" height="16" fill="#de2910"/>
-                  <g fill="#ffde00">
-                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(6 5) scale(3.4)"/>
-                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(11.2 2.6) scale(1.2)"/>
-                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(13.6 4.6) scale(1.2)"/>
-                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(13.6 7.4) scale(1.2)"/>
-                    <path d="M0,-1 L0.2245,-0.309 0.9511,-0.309 0.3633,0.118 0.5878,0.809 0,0.382 -0.5878,0.809 -0.3633,0.118 -0.9511,-0.309 -0.2245,-0.309 Z" transform="translate(11.2 9.4) scale(1.2)"/>
-                  </g>
-                </svg>
-              </span>
-              <span class="lang-option-body">
-                <span class="lang-option-sub" lang="en">Simplified Chinese</span>
-                <span class="lang-option-name">简体中文</span>
-              </span>
-            </button>
-            <button class="lang-option" type="button" role="menuitemradio" data-lang="zh-TW" aria-checked="false" lang="zh-TW">
-              <span class="lang-flag" aria-hidden="true">
-                <svg viewBox="0 0 24 16">
-                  <rect width="24" height="16" fill="#fe0000"/>
-                  <rect width="12" height="8" fill="#000095"/>
-                  <polygon fill="#fff" points="9,4 7.449,4.388 8.598,5.5 7.061,5.061 7.5,6.598 6.388,5.449 6,7 5.612,5.449 4.5,6.598 4.939,5.061 3.402,5.5 4.551,4.388 3,4 4.551,3.612 3.402,2.5 4.939,2.939 4.5,1.402 5.612,2.551 6,1 6.388,2.551 7.5,1.402 7.061,2.939 8.598,2.5 7.449,3.612"/>
-                  <circle cx="6" cy="4" r="1.65" fill="#fff"/>
-                </svg>
-              </span>
-              <span class="lang-option-body">
-                <span class="lang-option-sub" lang="en">Traditional Chinese</span>
-                <span class="lang-option-name">繁體中文</span>
-              </span>
-            </button>
-          </div>
-        </div>
-        <a class="icon-btn" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" aria-label="GitHub">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-        </a>
-        <a class="btn btn-hire mono" href="#install" data-nav data-i18n="nav.get">Download</a>
-        <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobileNav">
-          <span class="nav-toggle-bars" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </button>
-      </div>
+      <a class="gh" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      </a>
     </div>
-    <div class="lang-hint mono" id="langHint" role="status" aria-live="polite" hidden></div>
-    <nav class="mobile-nav mono" id="mobileNav" aria-label="Mobile navigation">
-      <a href="#about" data-nav data-i18n="nav.about">About</a>
-      <a href="#features" data-nav data-i18n="nav.features">Features</a>
-      <a href="#modes" data-nav data-i18n="nav.modes">Modes</a>
-      <a href="#install" data-nav data-i18n="nav.install">Install</a>
-      <div class="mobile-nav-row">
-        <div class="mobile-nav-social">
-          <a class="btn btn-hire mobile-nav-hire mono" href="#install" data-nav aria-labelledby="mobileHireLabel">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
-            </svg>
-            <span class="sr-only" id="mobileHireLabel" data-i18n="nav.get">Download</span>
-          </a>
-          <a class="icon-btn" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" aria-label="GitHub">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </nav>
   </header>
 
-  <section id="hero" class="hero-section">
-    <canvas id="heroFieldCanvas" class="hero-field-canvas" aria-hidden="true"></canvas>
-    <div class="hero-content">
-      <div class="hero-container hero-stack">
-        <div class="banner-pill-wrap">
-          <a class="banner-pill mono" href="https://github.com/fundokukiri/ibus-mangrs/releases/latest" target="_blank" rel="noopener">
-            <span data-i18n="hero.banner_text">v0.1.2 released — Linux · IBus · MIT License</span>
-            <span class="banner-arrow">→</span>
-          </a>
+  <section class="hero">
+    <i class="px p1"></i><i class="px p2"></i><i class="px p3"></i>
+    <i class="px p4"></i><i class="px p5"></i><i class="px p6"></i>
+    <div class="wrap hero-word">
+      <div class="wordmark-wrap">
+        <canvas id="wordmarkCanvas" class="wordmark-canvas" width="900" height="271" aria-label="MăngRS"></canvas>
+      </div>
+    </div>
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <span class="kicker"><span class="blinksq"></span>// src/lib.rs</span>
+        <h1 class="sr-only">MăngRS</h1>
+        <p class="sub">Tất cả hướng dẫn gói gọn trong một bảng tab — cài đặt, tùy chỉnh, mẹo gõ. Mọi lệnh đều có nút sao chép một cú nhấp.</p>
+        <div class="hero-cta">
+          <a class="btnx solid" href="#" id="ctaInstall">$ cargo install ibus-mangrs</a>
+          <a class="btnx ghost" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener">GitHub ↗</a>
         </div>
-
-        <div class="wordmark-wrap">
-          <h1 class="sr-only">MăngRS</h1>
-          <canvas id="wordmarkCanvas" class="wordmark-canvas" width="900" height="271" aria-label="MăngRS"></canvas>
+        <div class="hero-badges">
+          <span><b>4</b> kiểu gõ</span>
+          <span><b>11</b> bảng mã</span>
+          <span><b>8</b> chế độ hiển thị</span>
+          <span><b>211</b> unit test</span>
         </div>
-
-        <div class="hero-sub">
-          <p class="tagline mono" data-i18n="hero.tagline">A Vietnamese keyboard for IBus, written in Rust.</p>
-          <p class="hero-line mono" data-i18n="hero.sub_line_1">Telex · VNI · VIQR · Microsoft — smart spell check, macros, per-app rules.</p>
-          <p class="hero-line mono" data-i18n="hero.sub_line_2">Tested on Arch Linux, GNOME 51 and Wayland. Needs IBus ≥ 1.5 and GTK4.</p>
-          <div class="hero-cta-row">
-            <a class="btn btn-accent mono" href="https://github.com/fundokukiri/ibus-mangrs/releases/latest" target="_blank" rel="noopener">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
-              </svg>
-              <span data-i18n="hero.download">Download v0.1.2</span>
-            </a>
-            <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              <span data-i18n="hero.github">View on GitHub</span>
-            </a>
-          </div>
+      </div>
+      <div class="terminal" aria-hidden="true">
+        <span class="tag">live demo</span>
+      <div class="term-bar">
+        <span class="sq r"></span><span class="sq y"></span><span class="sq g"></span>
+        <span class="tab">&#9612; mangrs &#9616;</span>
+        <span class="title">kitty &#183; mangrs@vietnam:~</span>
+      </div>
+        <div class="term-body">
+          <div><span class="seg g">mangrs</span><span class="seg b">~</span> <span id="termType"></span><span class="blockcaret"></span></div>
+          <div id="termOut" class="dim"></div>
+          <div class="dim" style="margin-top:0.5rem"><span class="c1">&#9679;</span> engine: <span class="c2">ibus-mangrs</span> &#183; lang: <span class="c4">rust</span> &#183; mode: <span class="c3">non-preedit</span> &#183; telex: <span class="c1">on</span></div>
         </div>
-
-        <a class="hero-scroll mono" href="#about" data-nav aria-label="Scroll to about">
-          <span aria-hidden="true">[ scroll ]</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-            <path d="M12 4v15M5.5 12.5L12 19l6.5-6.5"></path>
-          </svg>
-        </a>
       </div>
     </div>
   </section>
 
-  <main>
-    <section id="about" class="section">
-      <div class="container">
-        <header class="section-header">
-          <a class="section-anchor" href="#about" data-i18n="about.title">#about</a>
-          <p class="section-sub" data-i18n="about.subtitle">A Vietnamese input method, rebuilt in Rust.</p>
-        </header>
-        <div class="about-grid">
-          <div class="about-media">
-            <img src="assets/img/mangrs-logo.png" alt="MăngRS logo" loading="lazy">
+
+  <main class="wrap">
+    <div class="doccard">
+      <div class="tabbar" role="tablist">
+        <button class="on" data-tab="install">⬇ Cài đặt</button>
+        <button data-tab="feats">⚡ Tính năng</button>
+        <button data-tab="quick">⚙ Thiết lập nhanh</button>
+        <button data-tab="modes">⌨ Chế độ gõ</button>
+        <button data-tab="macro">✎ Macro &amp; từ điển</button>
+        <button data-tab="shots">▣ Giao diện</button>
+        <button data-tab="faq">? Xử lý sự cố</button>
+      </div>
+
+      <!-- TAB TÍNH NĂNG -->
+      <section class="panel" id="tab-feats">
+        <h2><span class="ico">⚡</span> Tính năng</h2>
+        <p class="lede">Toàn bộ khả năng của bộ gõ trong một bảng — mã nguồn mở trên
+        <a href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" style="color:var(--accent)">GitHub ↗</a>.</p>
+        <table class="opt">
+          <thead><tr><th>Tính năng</th><th>Chi tiết</th></tr></thead>
+          <tbody>
+            <tr><td>4 kiểu gõ</td><td>Telex (<code>tieengs</code> → <code>tiếng</code>), VNI (<code>tie6ng1</code>), VIQR, kiểu Microsoft</td></tr>
+            <tr><td>11 bảng mã</td><td>Unicode, NFD, TCVN3, VNI, VIQR, VISCII, VPS, CP1258, BKHCM, Vietware X, Vietware Full</td></tr>
+            <tr><td>8 chế độ hiển thị</td><td>Chọn theo ứng dụng bằng App Rules — xem tab <b>Chế độ gõ</b></td></tr>
+            <tr><td>Tự sửa lỗi chính tả</td><td>Âm tiết sai được chuyển thành âm hợp lệ gần nhất bằng kiểm tra âm vị học (phonotactic check)</td></tr>
+            <tr><td>Tự khôi phục</td><td>Từ không phải tiếng Việt trả về phím thô — chữ Anh, code gõ qua nguyên vẹn</td></tr>
+            <tr><td>Bỏ qua URL / path</td><td>Từ gõ sau <code>/ : @ . _ ~ = # &amp; % ?</code> không bao giờ bị thêm dấu</td></tr>
+            <tr><td>Macro</td><td>Mở rộng <code>$TIME</code>/<code>$DATE</code>, viết hoa thông minh, không kích hoạt nhầm từ Việt thật</td></tr>
+            <tr><td>Từ điển riêng</td><td>Từ trong <code>dictionary.txt</code> không bao giờ bị tự khôi phục</td></tr>
+            <tr><td>Cài đặt GTK4</td><td>5 tab tiếng Việt, mọi thay đổi hot-reload trong ~1 giây — xem tab <b>Giao diện</b></td></tr>
+            <tr><td>Sao lưu / khôi phục</td><td>Toàn bộ cấu hình, macro, từ điển gói trong một file JSON</td></tr>
+            <tr><td>Từ đang gõ</td><td>3 hành vi khi click/nghỉ gõ: Bamboo (mặc định), Keep word, Relocate</td></tr>
+            <tr><td>Kiểm thử</td><td>211 unit test, trong đó bảng vàng 678 ca gõ-phím → chữ (102 Telex + 96 VNI + 24 VIQR × 3 biến thể, 12 Microsoft)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- TAB 1 -->
+      <section class="panel" id="tab-quick">
+        <p class="rustsig"><span class="k">impl</span> <span class="t">QuickSettings</span> { ... }</p>
+        <h2><span class="ico">⚙</span> Thiết lập nhanh</h2>
+        <p class="lede">Mở từ menu nguồn nhập (biểu tượng <strong>vi</strong> trên thanh trên) — thay đổi có hiệu lực trong ~1 giây.</p>
+        <table class="opt">
+          <thead><tr><th>Tùy chọn</th><th>Chức năng</th><th>Mặc định</th></tr></thead>
+          <tbody>
+            <tr><td>Input Method</td><td>Kiểu gõ: Telex / VNI / VIQR / Microsoft</td><td class="def">Telex</td></tr>
+            <tr><td>Output Charset</td><td>Bảng mã đầu ra (11 bảng mã)</td><td class="def">Unicode</td></tr>
+            <tr><td>Auto Correct</td><td>Tự sửa âm tiết sai thành âm hợp lệ gần nhất</td><td class="def">Bật</td></tr>
+            <tr><td>Modern Tone</td><td>Đặt dấu kiểu hiện đại <code>hòa</code> thay vì <code>hoà</code></td><td class="def">Bật</td></tr>
+            <tr><td>Free Tone Mark</td><td>Đặt dấu tự do: <code>hoangf</code> → <code>hoàng</code></td><td class="def">Tắt</td></tr>
+            <tr><td>Auto Capitalize</td><td>Tự viết hoa sau <code>. ! ?</code> và Enter</td><td class="def">Tắt</td></tr>
+            <tr><td>Cycle Mode Hotkey</td><td>Phím xoay vòng 8 chế độ hiển thị</td><td class="def">—</td></tr>
+          </tbody>
+        </table>
+        <div class="note">// Mọi thay đổi trong menu, GUI hay file cấu hình đều đồng bộ với nhau — chỉnh ở đâu cũng được.</div>
+      </section>
+
+      <!-- TAB 2 -->
+      <section class="panel on" id="tab-install">
+        <p class="rustsig"><span class="k">fn</span> <span class="t">cai_dat</span>() -&gt; <span class="t">Result</span>&lt;()&gt;</p>
+        <h2><span class="ico">⬇</span> Cài đặt</h2>
+        <p class="lede">Cần IBus ≥ 1.5, GTK4 và Rust. Chọn cách cài phù hợp rồi làm theo từng bước.</p>
+
+        <h3>Cách 1 — một dòng lệnh</h3>
+        <div class="step">
+          <span class="n">1</span>
+          <h4>Chạy trình cài đặt online</h4>
+          <p>Tải mã nguồn, build và cài — udev rule và nhóm <code>input</code> được thiết lập tự động.</p>
+          <div class="code"><button class="copy" title="Sao chép">⧉</button><pre>curl -fsSL https://raw.githubusercontent.com/fundokukiri/ibus-mangrs/dev/scripts/install-online.sh | sh</pre></div>
+        </div>
+
+        <h3>Cách 2 — từ mã nguồn</h3>
+        <div class="step">
+          <span class="n">1</span>
+          <h4>Build engine</h4>
+          <p>Clone repo và build với GUI settings window.</p>
+          <div class="code"><button class="copy" title="Sao chép">⧉</button><pre>git clone https://github.com/fundokukiri/ibus-mangrs
+cd ibus-mangrs
+cargo build --release --features gui</pre></div>
+        </div>
+        <div class="step">
+          <span class="n">2</span>
+          <h4>Cài &amp; khởi động lại IBus</h4>
+          <p>Engine vào <code>/usr/lib/ibus-mangrs/</code>, component đăng ký vào IBus.</p>
+          <div class="code"><button class="copy" title="Sao chép">⧉</button><pre>sudo ./scripts/install.sh
+ibus restart</pre></div>
+        </div>
+        <div class="step">
+          <span class="n">3</span>
+          <h4>Thêm nguồn nhập</h4>
+          <p><strong>Cài đặt → Bàn phím → Nguồn nhập → +</strong> → <em>Tiếng Việt</em> → <strong>MăngRS</strong>. Chuyển bố cục bằng <code>Super+Space</code>.</p>
+        </div>
+
+        <h3>Gỡ cài đặt</h3>
+        <div class="step">
+          <span class="n">1</span>
+          <h4>Chạy trình gỡ</h4>
+          <p>Gỡ engine, component và udev rule — <strong>giữ nguyên cấu hình</strong> của bạn tại <code>~/.config/ibus-mangrs/</code>.</p>
+          <div class="code"><button class="copy" title="Sao chép">⧉</button><pre>sudo ./scripts/uninstall.sh
+ibus restart</pre></div>
+        </div>
+        <div class="step">
+          <span class="n">2</span>
+          <h4>Gỡ sạch nếu muốn</h4>
+          <p>Xoá nốt cấu hình, macro, từ điển và tự xoá mình khỏi nhóm <code>input</code> nếu cần:</p>
+          <div class="code"><button class="copy" title="Sao chép">⧉</button><pre>rm -rf ~/.config/ibus-mangrs ~/.cache/ibus-mangrs
+sudo gpasswd -d $USER input</pre></div>
+        </div>
+        <div class="note">// Người dùng Arch gỡ bằng <code>sudo pacman -R ibus-ibus-mangrs</code>; nâng cấp chỉ cần chạy lại <code>./scripts/autoinstall.sh</code>.</div>
+      </section>
+
+      <!-- TAB 3 -->
+      <section class="panel" id="tab-modes">
+        <p class="rustsig"><span class="k">enum</span> <span class="t">CheDoHienThi</span> { Preedit, NonPreedit, ... }</p>
+        <h2><span class="ico">⌨</span> Chế độ gõ &amp; hiển thị</h2>
+        <p class="lede">8 chế độ quyết định cách chữ đi vào ứng dụng — đổi từ menu, GUI, hotkey hoặc App Rules theo từng ứng dụng.</p>
+        <table class="opt">
+          <thead><tr><th>Chế độ</th><th>Cách hoạt động</th><th>Phù hợp</th></tr></thead>
+          <tbody>
+            <tr><td>Preedit</td><td>Từ hiện trong dòng với gạch chân, commit khi hết từ</td><td class="def">Mặc định</td></tr>
+            <tr><td>Non-preedit</td><td>Mỗi phím commit ngay, đuôi từ viết lại khi có dấu</td><td class="def">Firefox, GTK</td></tr>
+            <tr><td>Surrounding text</td><td>Non-preedit + đối chiếu văn bản của ứng dụng</td><td class="def">Sublime</td></tr>
+            <tr><td>Smooth (uinput)</td><td>Xoá đuôi latin bằng Backspace thật</td><td class="def">Terminal, X11</td></tr>
+            <tr><td>Super Smooth</td><td>Như Smooth, bỏ kiểm tra an toàn</td><td class="def">Gõ nhanh, X11</td></tr>
+            <tr><td>Select (uinput)</td><td>Shift+← chọn đuôi, Delete xoá</td><td class="def">Backspace lỗi, X11</td></tr>
+            <tr><td>OFF</td><td>Tắt tiếng Việt, macro vẫn chạy</td><td class="def">Việt/Anh trộn</td></tr>
+            <tr><td>Default Typing</td><td>Engine thụ động hoàn toàn</td><td class="def">—</td></tr>
+          </tbody>
+        </table>
+        <div class="note">// Các chế độ uinput cần <code>/dev/uinput</code> ghi được; trên GNOME Wayland chúng tự quay về preedit (dành cho X11).</div>
+      </section>
+
+      <!-- TAB 4 -->
+      <section class="panel" id="tab-macro">
+        <p class="rustsig"><span class="k">struct</span> <span class="t">Macro</span> { key: <span class="t">String</span>, expansion: <span class="t">String</span> }</p>
+        <h2><span class="ico">✎</span> Macro &amp; từ điển</h2>
+        <p class="lede">File cấu hình nằm ở <code>~/.config/ibus-mangrs/</code>, nạp lại nóng trong ~1 giây.</p>
+        <h3>macros.toml — từ viết tắt</h3>
+        <div class="code"><button class="copy" title="Sao chép">⧉</button><pre>gs=giờ sáng
+dc=địa chỉ: $TIME</pre></div>
+        <p class="lede" style="margin-top:.7rem"><code>$TIME</code>/<code>$DATE</code> mở rộng theo định dạng trong GUI; key viết HOA thì giá trị cũng HOA.</p>
+        <h3>dictionary.txt — từ không bao giờ tự khôi phục</h3>
+        <div class="code"><button class="copy" title="Sao chép">⧉</button><pre>nginx
+systemd
+vnedu</pre></div>
+      </section>
+
+      <!-- TAB GIAO DIỆN -->
+      <section class="panel" id="tab-shots">
+        <h2><span class="ico">▣</span> Giao diện &amp; Ảnh chụp</h2>
+        <p class="lede">Cửa sổ cài đặt GTK4 tiếng Việt và menu nguồn nhập — bấm vào ảnh để phóng to.</p>
+        <div class="slider">
+          <button class="sl-nav prev" id="slPrev" aria-label="Ảnh trước">&#9664;</button>
+          <div class="sl-stage">
+            <img id="slImg" src="assets/img/gui-menu.png" alt="Menu nguồn nhập" data-cap="Menu nguồn nhập (System Tray)">
           </div>
-          <div class="about-content">
-            <div class="about-text">
-              <p data-i18n="about.p1">MăngRS is a Vietnamese input method engine for IBus, written in Rust on top of bamboo-core. It brings Telex, VNI, VIQR and the Microsoft layout together with a GTK4 settings window, macros, a custom dictionary and per-app rules.</p>
-              <p data-i18n="about.p2">Developed and tested on Arch Linux (IBus 1.5.34, GNOME 51, Wayland; X11 smoke-tested). Other distributions and desktop environments are not tested yet — IBus ≥ 1.5 and GTK4 are the only hard requirements.</p>
-            </div>
-            <div class="about-education">
-              <p class="about-edu-label mono" data-i18n="about.spec_label">Project</p>
-              <p class="about-edu-degree"><span data-i18n="about.version_label">Latest version</span> v0.1.2 · <span data-i18n="about.license_label">License</span> MIT</p>
-              <p class="about-edu-meta mono"><span data-i18n="about.platform_label">Platform</span>: Linux · IBus ≥ 1.5 · GTK4 · <span data-i18n="about.language_label">Written in</span>: Rust</p>
-            </div>
-            <div class="about-actions">
-              <a class="btn btn-primary mono" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" data-i18n="about.action_github">Star on GitHub</a>
-              <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs/tree/master/docs" target="_blank" rel="noopener" data-i18n="about.action_docs">Read the docs</a>
-            </div>
-          </div>
+          <button class="sl-nav next" id="slNext" aria-label="Ảnh sau">&#9654;</button>
         </div>
-      </div>
-    </section>
+        <div class="sl-bar">
+          <div class="sl-dots" id="slDots"></div>
+          <div class="sl-cap"><b id="slTitle">Menu nguồn nhập</b><span id="slSub">tray · bật/tắt tiếng Việt</span><span id="slCount" style="color:var(--accent);font-weight:700">1 / 6</span></div>
+        </div>
+      </section>
 
-    <section id="features" class="section">
-      <div class="container">
-        <header class="section-header">
-          <a class="section-anchor" href="#features" data-i18n="features.title">#features</a>
-          <p class="section-sub" data-i18n="features.subtitle">Everything a Vietnamese typist needs.</p>
-        </header>
-        <div class="skills-groups">
-          <section class="skill-group fade-in">
-            <h3 class="skill-label mono" data-i18n="features.inputsLabel">Input methods</h3>
-            <ul class="skill-tiles">
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">Telex</span></span>
-                <span class="skill-name mono" data-i18n="features.telex">Telex</span>
-              </li>
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">VNI</span></span>
-                <span class="skill-name mono" data-i18n="features.vni">VNI</span>
-              </li>
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">VIQR</span></span>
-                <span class="skill-name mono" data-i18n="features.viqr">VIQR</span>
-              </li>
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">MS</span></span>
-                <span class="skill-name mono" data-i18n="features.microsoft">Microsoft layout</span>
-              </li>
-            </ul>
-          </section>
-          <section class="skill-group fade-in">
-            <h3 class="skill-label mono" data-i18n="features.typingLabel">Typing options</h3>
-            <ul class="skill-list mono">
-              <li data-i18n="features.typing1">Modern tone placement (hòa) or traditional (hoà)</li>
-              <li data-i18n="features.typing2">Free tone marking: hoangf → hoàng</li>
-              <li data-i18n="features.typing3">Spell check from a bundled 38,350-word list</li>
-              <li data-i18n="features.typing4">Auto-restore non-Vietnamese words</li>
-              <li data-i18n="features.typing5">Raw keys after / : @ . _ ~ = # &amp; % ?</li>
-              <li data-i18n="features.typing6">w → ư, [ ] → ơ ư, -- → —</li>
-              <li data-i18n="features.typing7">Auto-capitalize and double space → period</li>
-              <li data-i18n="features.typing8">Macros with $TIME / $DATE expansion</li>
-            </ul>
-          </section>
-          <section class="skill-group fade-in">
-            <h3 class="skill-label mono" data-i18n="features.charsetsLabel">Output charsets</h3>
-            <ul class="skill-list mono">
-              <li data-i18n="features.charsets">Unicode · Unicode NFD · TCVN3 · VNI · VIQR · VISCII · VPS · CP1258 · BKHCM · Vietware X · Vietware Full</li>
-            </ul>
-          </section>
-          <section class="skill-group fade-in">
-            <h3 class="skill-label mono" data-i18n="features.qualityLabel">Settings &amp; quality</h3>
-            <ul class="skill-tiles">
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">GUI</span></span>
-                <span class="skill-name mono" data-i18n="features.q1">GTK4 settings</span>
-              </li>
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark">6</span></span>
-                <span class="skill-name mono" data-i18n="features.q2">6 tabs</span>
-              </li>
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">1s</span></span>
-                <span class="skill-name mono" data-i18n="features.q3">Hot reload</span>
-              </li>
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">JSON</span></span>
-                <span class="skill-name mono" data-i18n="features.q4">JSON backup</span>
-              </li>
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark sm">App</span></span>
-                <span class="skill-name mono" data-i18n="features.q5">App rules</span>
-              </li>
-              <li class="skill-tile">
-                <span class="skill-icon" aria-hidden="true"><span class="skill-mark">164</span></span>
-                <span class="skill-name mono" data-i18n="features.q6">164 tests</span>
-              </li>
-            </ul>
-          </section>
-        </div>
-      </div>
-    </section>
-
-    <section id="modes" class="section">
-      <div class="container">
-        <header class="section-header">
-          <a class="section-anchor" href="#modes" data-i18n="modes.title">#display-modes</a>
-          <p class="section-sub" data-i18n="modes.subtitle">Six ways to put Vietnamese on screen.</p>
-        </header>
-        <div class="experience-list" id="workList">
-          <article class="card experience-card" data-exp-card>
-            <header class="exp-head">
-              <h3 class="exp-role" data-i18n="modes.list.0.role">Preedit (default)</h3>
-              <span class="exp-period mono" data-i18n="modes.list.0.kind">Classic</span>
-            </header>
-            <p class="exp-company mono" data-i18n="modes.list.0.best">Best for: widest compatibility</p>
-            <div class="exp-body" id="exp-body-0">
-              <div class="exp-body-inner">
-                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
-                <ul class="exp-list" id="exp-list-0">
-                  <li data-i18n="modes.list.0.desc">The word shows inline with an underline and commits when the word ends.</li>
-                </ul>
-              </div>
-            </div>
-            <span class="exp-chevron" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
-            </span>
-          </article>
-          <article class="card experience-card" data-exp-card>
-            <header class="exp-head">
-              <h3 class="exp-role" data-i18n="modes.list.1.role">Non-preedit</h3>
-              <span class="exp-period mono" data-i18n="modes.list.1.kind">Classic</span>
-            </header>
-            <p class="exp-company mono" data-i18n="modes.list.1.best">Best for: Firefox, GTK apps</p>
-            <div class="exp-body" id="exp-body-1">
-              <div class="exp-body-inner">
-                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
-                <ul class="exp-list" id="exp-list-1">
-                  <li data-i18n="modes.list.1.desc">Every key commits immediately; the tail is rewritten when a mark arrives.</li>
-                </ul>
-              </div>
-            </div>
-            <span class="exp-chevron" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
-            </span>
-          </article>
-          <article class="card experience-card" data-exp-card>
-            <header class="exp-head">
-              <h3 class="exp-role" data-i18n="modes.list.2.role">Surrounding text</h3>
-              <span class="exp-period mono" data-i18n="modes.list.2.kind">Classic</span>
-            </header>
-            <p class="exp-company mono" data-i18n="modes.list.2.best">Best for: Sublime Text</p>
-            <div class="exp-body" id="exp-body-2">
-              <div class="exp-body-inner">
-                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
-                <ul class="exp-list" id="exp-list-2">
-                  <li data-i18n="modes.list.2.desc">Non-preedit plus a check against the application's own text report.</li>
-                </ul>
-              </div>
-            </div>
-            <span class="exp-chevron" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
-            </span>
-          </article>
-          <article class="card experience-card" data-exp-card data-extra="1" hidden>
-            <header class="exp-head">
-              <h3 class="exp-role" data-i18n="modes.list.3.role">Smooth</h3>
-              <span class="exp-period mono" data-i18n="modes.list.3.kind">Uinput · X11</span>
-            </header>
-            <p class="exp-company mono" data-i18n="modes.list.3.best">Best for: terminals, quirky apps</p>
-            <div class="exp-body" id="exp-body-3">
-              <div class="exp-body-inner">
-                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
-                <ul class="exp-list" id="exp-list-3">
-                  <li data-i18n="modes.list.3.desc">Raw keys are forwarded while typing; the Latin tail is erased with real Backspaces at word end.</li>
-                </ul>
-              </div>
-            </div>
-            <span class="exp-chevron" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
-            </span>
-          </article>
-          <article class="card experience-card" data-exp-card data-extra="1" hidden>
-            <header class="exp-head">
-              <h3 class="exp-role" data-i18n="modes.list.4.role">Super Smooth</h3>
-              <span class="exp-period mono" data-i18n="modes.list.4.kind">Uinput · X11</span>
-            </header>
-            <p class="exp-company mono" data-i18n="modes.list.4.best">Best for: fast typing</p>
-            <div class="exp-body" id="exp-body-4">
-              <div class="exp-body-inner">
-                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
-                <ul class="exp-list" id="exp-list-4">
-                  <li data-i18n="modes.list.4.desc">Same as Smooth, without the safety check before rewriting the tail.</li>
-                </ul>
-              </div>
-            </div>
-            <span class="exp-chevron" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
-            </span>
-          </article>
-          <article class="card experience-card" data-exp-card data-extra="1" hidden>
-            <header class="exp-head">
-              <h3 class="exp-role" data-i18n="modes.list.5.role">Select</h3>
-              <span class="exp-period mono" data-i18n="modes.list.5.kind">Uinput · X11</span>
-            </header>
-            <p class="exp-company mono" data-i18n="modes.list.5.best">Best for: apps where Backspaces misbehave</p>
-            <div class="exp-body" id="exp-body-5">
-              <div class="exp-body-inner">
-                <p class="exp-label mono" data-i18n="modes.how">How it works</p>
-                <ul class="exp-list" id="exp-list-5">
-                  <li data-i18n="modes.list.5.desc">Shift+← selects the tail, Delete erases it, then the word commits.</li>
-                </ul>
-              </div>
-            </div>
-            <span class="exp-chevron" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
-            </span>
-          </article>
-        </div>
-        <div class="work-more">
-          <button class="btn btn-ghost mono" id="workMoreBtn" type="button" aria-expanded="false" aria-controls="workList" data-i18n="modes.more">More</button>
-        </div>
-        <p class="section-note mono" data-i18n="modes.note">The uinput modes need /dev/uinput and fall back to preedit wherever real-key injection cannot reach the application; on GNOME Wayland they resolve to preedit.</p>
-      </div>
-    </section>
-
-    <section id="install" class="section">
-      <div class="container">
-        <header class="section-header">
-          <a class="section-anchor" href="#install" data-i18n="install.title">#install</a>
-          <p class="section-sub" data-i18n="install.subtitle">Install from source. Binary packages are not available yet.</p>
-        </header>
-        <div class="install-grid">
-          <article class="card install-card fade-in">
-            <h3 data-i18n="install.online_title">One-line install</h3>
-            <p data-i18n="install.online_desc">Downloads the source, builds it and installs it. Needs curl, Rust, IBus, GTK4 and sudo.</p>
-            <pre class="install-code"><code>curl -fsSL https://raw.githubusercontent.com/fundokukiri/ibus-mangrs/dev/scripts/install-online.sh | sh</code></pre>
-          </article>
-          <article class="card install-card fade-in">
-            <h3 data-i18n="install.source_title">From source</h3>
-            <p data-i18n="install.source_desc">Build the engine, then run the installer.</p>
-            <pre class="install-code"><code>cargo build --release --features gui
-./scripts/autoinstall.sh</code></pre>
-          </article>
-          <article class="card install-card install-card-after fade-in">
-            <h3 data-i18n="install.after_title">Enable the input source</h3>
-            <p data-i18n="install.after_desc">Restart IBus, then add Vietnamese → MăngRS in Settings → Keyboard → Input Sources. Switch layouts with Super+Space.</p>
-            <pre class="install-code"><code>ibus restart</code></pre>
-          </article>
-        </div>
-        <p class="section-note mono" data-i18n="install.note">Binary packages for Arch, Debian/Ubuntu and Fedora/openSUSE are not available yet. Full instructions live in docs/installation.md.</p>
-      </div>
-    </section>
-
-    <section id="contact" class="section contact">
-      <div class="container">
-        <header class="section-header">
-          <a class="section-anchor" href="#contact" data-i18n="contact.title">#get-mangrs</a>
-          <p class="section-sub" data-i18n="contact.subtitle">Free, open source, MIT licensed.</p>
-        </header>
-        <div class="contact-inner">
-          <h2 class="contact-title" data-i18n="contact.heading">Get MăngRS.</h2>
-          <p class="contact-desc" data-i18n="contact.description">Report a bug, request a feature, or help test it on your distribution.</p>
-          <div class="contact-actions">
-            <a class="btn btn-primary mono" href="https://github.com/fundokukiri/ibus-mangrs/releases/latest" target="_blank" rel="noopener" data-i18n="contact.link_releases">Releases</a>
-            <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" data-i18n="contact.link_github">GitHub</a>
-            <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs/tree/master/docs" target="_blank" rel="noopener" data-i18n="contact.link_docs">Documentation</a>
-            <a class="btn btn-ghost mono" href="https://github.com/fundokukiri/ibus-mangrs/issues" target="_blank" rel="noopener" data-i18n="contact.link_issues">Issues</a>
-            <button class="btn btn-ghost mono" id="emailBtn" data-email="fundokukiri@gmail.com" data-i18n="contact.link_email">Email</button>
-          </div>
-        </div>
-      </div>
-    </section>
+      <!-- TAB 5 -->
+      <section class="panel" id="tab-faq">
+        <p class="rustsig"><span class="k">trait</span> <span class="t">XuLySuCo</span> { <span class="k">fn</span> <span class="t">debug_log</span>(&amp;self); }</p>
+        <h2><span class="ico">?</span> Xử lý sự cố</h2>
+        <p class="lede">Các lỗi hay gặp và cách xử lý nhanh.</p>
+        <details class="faq" open>
+          <summary>Engine không xuất hiện trong Nguồn nhập</summary>
+          <div class="a">Chạy <code>ibus write-cache --system</code> rồi <code>ibus-daemon -drx</code>. Kiểm tra <code>/usr/share/ibus/component/ibus-mangrs.xml</code> tồn tại.</div>
+        </details>
+        <details class="faq">
+          <summary>Dấu không hiện ở một ứng dụng cụ thể</summary>
+          <div class="a">Thêm App Rule cho tiến trình đó trong GUI (thẻ <em>Applications</em>), hoặc kiểm tra quyền <code>/dev/uinput</code>.</div>
+        </details>
+        <details class="faq">
+          <summary>Từ tiếng Anh / tên biến bị biến đổi</summary>
+          <div class="a">Từ không phải tiếng Việt tự khôi phục về phím thô; nếu vẫn sai, thêm từ vào <code>dictionary.txt</code> và bật từ điển.</div>
+        </details>
+        <details class="faq">
+          <summary>Chế độ uinput không chạy trên Wayland</summary>
+          <div class="a">Đúng thiết kế: chúng tự quay về preedit trên GNOME Wayland, dành cho phiên X11.</div>
+        </details>
+        <details class="faq">
+          <summary>Báo lỗi thế nào cho dễ sửa?</summary>
+          <div class="a">Bật <em>Debug Logging</em> trong GUI, tái hiện lỗi, đính kèm <code>~/.cache/ibus-mangrs/debug.log</code> vào GitHub issue — log không chứa chữ bạn gõ.</div>
+        </details>
+      </section>
+    </div>
   </main>
 
-  <footer class="site-footer">
-      <div class="container footer-grid">
-      <div class="footer-col">
-        <div class="footer-logo">
-          <span class="logo-mark footer-logo-mark" role="img" aria-label="MăngRS logo"></span>
-          <span class="mono">/ MăngRS</span>
-        </div>
-        <p class="footer-desc" data-i18n="footer.role">A Vietnamese keyboard for IBus · Written in Rust</p>
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <div class="foot-right">
+        <p class="rustsig" style="margin:0;text-align:center">
+          <span class="k">crate</span> <span class="t">ibus-mangrs</span> v0.1.3 &#183; bamboo-core v0.5.3 &#183; license <span class="t">GPL-3.0</span> &#183; <span style="color:#a6e3a1">211/211 tests</span> &#183; written in &#129440; Rust
+        </p>
+        <p class="foot-links">
+          <a href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://github.com/fundokukiri/ibus-mangrs/issues" target="_blank" rel="noopener">Báo lỗi ↗</a>
+          <a href="index.html" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">Về đầu trang ↑</a>
+        </p>
       </div>
-      <div class="footer-col">
-        <h4 class="footer-title mono" data-i18n="footer.explore">Explore</h4>
-        <ul class="footer-list">
-          <li><a href="#hero" data-footer data-i18n="footer.home">Home</a></li>
-          <li><a href="#about" data-footer data-i18n="footer.about">About</a></li>
-          <li><a href="#features" data-footer data-i18n="footer.features">Features</a></li>
-          <li><a href="#modes" data-footer data-i18n="footer.modes">Modes</a></li>
-          <li><a href="#install" data-footer data-i18n="footer.install">Install</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4 class="footer-title mono" data-i18n="footer.resources">Resources</h4>
-        <ul class="footer-list">
-          <li><a href="https://github.com/fundokukiri/ibus-mangrs" target="_blank" rel="noopener" data-i18n="footer.link_github">GitHub</a></li>
-          <li><a href="https://github.com/fundokukiri/ibus-mangrs/releases" target="_blank" rel="noopener" data-i18n="footer.link_releases">Releases</a></li>
-          <li><a href="https://github.com/fundokukiri/ibus-mangrs/tree/master/docs" target="_blank" rel="noopener" data-i18n="footer.link_docs">Documentation</a></li>
-          <li><a href="https://github.com/fundokukiri/ibus-mangrs/issues" target="_blank" rel="noopener" data-i18n="footer.link_issues">Issues</a></li>
-          <li><a href="https://github.com/fundokukiri/ibus-mangrs/blob/master/LICENSE" target="_blank" rel="noopener" data-i18n="footer.link_license">MIT License</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4 class="footer-title mono" data-i18n="footer.project">Project</h4>
-        <ul class="footer-list">
-          <li><a href="#contact" data-footer data-i18n="footer.contact">Get MăngRS</a></li>
-          <li><a href="https://github.com/fundokukiri/ibus-mangrs/blob/master/NOTICE.md" target="_blank" rel="noopener" data-i18n="footer.link_notice">Third-party notices</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <p class="footer-copy" data-i18n="footer.copyright">© 2026 MăngRS · MIT License</p>
-      <p class="footer-note mono" data-i18n="footer.built_with">Built with ❤ and agents, inspired by omarchy.org</p>
     </div>
   </footer>
 
-  <script src="assets/js/main.js?v=20261031"></script>
-</body>
 
+
+<script>
+  // ---- retro terminal: gõ từng ký tự từ trái qua phải ----
+  (function () {
+    var out = document.getElementById("termType");
+    var log = document.getElementById("termOut");
+    var PHRASE = "Hoàng Sa, Trường Sa là của Việt Nam";
+    var TELEX = "[telex] Hoangf Sa,, Truongf Sa laof cuoraf Vieetj Nam";
+    var CODE = 'let tiengviet = MangRS::telex("tieengs");';
+    var CODE_HTML = '<span class="c4">let</span> tiengviet = <span class="c2">MangRS</span>::<span class="c3">telex</span>(<span class="c1">&quot;tieengs&quot;</span>);';
+    var ASSERT_HTML = '<span class="c2">assert_eq!</span>(tiengviet, <span class="c1">&quot;tiếng&quot;</span>); <span class="dim">// 211 tests pass ✓</span>';
+    var wait = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+    // hiệu ứng backspace: xóa dần từng ký tự tới hết
+    async function backspaceAll() {
+      log.textContent = "";
+      var n = out.textContent.length;
+      for (var i = n - 1; i >= 0; i--) {
+        out.textContent = out.textContent.slice(0, i);
+        await wait(30 + Math.random() * 40);
+      }
+    }
+    (async function run() {
+      for (;;) {
+        // màn 1: gõ tiếng Việt từ phím thô
+        out.textContent = ""; log.textContent = "";
+        await wait(800);
+        for (var i = 0; i < PHRASE.length; i++) {
+          out.textContent = PHRASE.slice(0, i + 1);
+          var ch = PHRASE[i];
+          await wait(ch === " " || ch === "," ? 200 : 90 + Math.random() * 80);
+        }
+        await wait(450);
+        log.textContent = TELEX;
+        await wait(2600);
+        await backspaceAll();
+        await wait(700);
+        // màn 2: gõ Rust rồi tự tô màu syntax
+        for (var j = 0; j < CODE.length; j++) {
+          out.textContent = CODE.slice(0, j + 1);
+          await wait(38 + Math.random() * 30);
+        }
+        await wait(350);
+        out.innerHTML = CODE_HTML;
+        await wait(420);
+        log.innerHTML = ASSERT_HTML;
+        await wait(2600);
+        await backspaceAll();
+        await wait(700);
+      }
+    })();
+  })();
+
+  var bar = document.querySelector(".tabbar");
+  bar.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    document.querySelectorAll(".tabbar button").forEach(function (x) { x.classList.toggle("on", x === b); });
+    document.querySelectorAll(".panel").forEach(function (p) { p.classList.toggle("on", p.id === "tab-" + b.dataset.tab); });
+  });
+  document.querySelectorAll(".copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var text = btn.parentElement.querySelector("pre").innerText;
+      (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+        .catch(function () {}).finally(function () {
+          btn.classList.add("ok"); btn.textContent = "✓";
+          setTimeout(function () { btn.classList.remove("ok"); btn.textContent = "⧉"; }, 1500);
+        });
+    });
+  });
+  // CTA trong hero mở tab Cài đặt
+  document.getElementById("ctaInstall").addEventListener("click", function (e) {
+    e.preventDefault();
+    var b = document.querySelector('.tabbar button[data-tab="install"]');
+    if (b) b.click();
+    document.querySelector(".doccard").scrollIntoView({ behavior: "smooth" });
+  });
+
+  // lightbox cho gallery
+  var lb = document.createElement("div");
+  lb.id = "lightbox";
+  lb.innerHTML = '<img alt=""><span class="cap"></span>';
+  document.body.appendChild(lb);
+  var lbImg = lb.querySelector("img"), lbCap = lb.querySelector(".cap");
+  document.getElementById("slImg").addEventListener("click", function () {
+    lbImg.src = this.src;
+    lbCap.textContent = this.dataset.cap || this.alt;
+    lb.classList.add("on");
+  });
+  lb.addEventListener("click", function () { lb.classList.remove("on"); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") lb.classList.remove("on");
+  });
+
+  // ---- slideshow Giao diện: tự chạy + nút qua lại ----
+  var SLIDES = [
+    { src: "assets/img/gui-menu.png",     cap: "Menu nguồn nhập (System Tray)", title: "Menu nguồn nhập",    sub: "tray · bật/tắt tiếng Việt" },
+    { src: "assets/img/gui-about.png",    cap: "GUI — tab Giới thiệu",          title: "Tab Giới thiệu",     sub: "phiên bản & tính năng" },
+    { src: "assets/img/gui-keyboard.png", cap: "GUI — tab Kiểu gõ",             title: "Tab Kiểu gõ",        sub: "điều khiển & phương thức gõ" },
+    { src: "assets/img/gui-tones.png",    cap: "GUI — tab Dấu & Sửa lỗi",       title: "Tab Dấu & Sửa lỗi",  sub: "dấu thanh, chính tả, tự động" },
+    { src: "assets/img/gui-macros.png",   cap: "GUI — tab Gõ tắt",              title: "Tab Gõ tắt",         sub: "macro, $TIME / $DATE" },
+    { src: "assets/img/gui-data.png",     cap: "GUI — tab Dữ liệu",             title: "Tab Dữ liệu",        sub: "từ điển & App Rules" }
+  ];
+  var slIdx = 0, slTimer = null;
+  var slImg = document.getElementById("slImg");
+  var slDots = document.getElementById("slDots");
+  SLIDES.forEach(function (_, i) {
+    var d = document.createElement("button");
+    d.type = "button";
+    d.setAttribute("aria-label", "Ảnh " + (i + 1));
+    d.addEventListener("click", function () { slShow(i, true); });
+    slDots.appendChild(d);
+  });
+  function slPanelVisible() {
+    var panel = document.getElementById("tab-shots");
+    return panel && panel.classList.contains("on") && !document.hidden;
+  }
+  function slRender() {
+    var sl = SLIDES[slIdx];
+    slImg.dataset.cap = sl.cap;
+    slImg.alt = sl.title;
+    document.getElementById("slTitle").textContent = sl.title;
+    document.getElementById("slSub").textContent = sl.sub;
+    document.getElementById("slCount").textContent = (slIdx + 1) + " / " + SLIDES.length;
+    slDots.querySelectorAll("button").forEach(function (b, i) { b.classList.toggle("on", i === slIdx); });
+  }
+  function slShow(i, manual) {
+    slIdx = (i + SLIDES.length) % SLIDES.length;
+    var sl = SLIDES[slIdx];
+    slImg.classList.add("fade");
+    setTimeout(function () {
+      slImg.src = sl.src;
+      slRender();
+      slImg.classList.remove("fade");
+    }, 180);
+    if (manual) slRestart();
+  }
+  function slRestart() {
+    clearInterval(slTimer);
+    slTimer = setInterval(function () {
+      if (slPanelVisible()) slShow(slIdx + 1, false);
+    }, 3500);
+  }
+  document.getElementById("slPrev").addEventListener("click", function () { slShow(slIdx - 1, true); });
+  document.getElementById("slNext").addEventListener("click", function () { slShow(slIdx + 1, true); });
+  slRender();
+  slRestart();
+</script>
+<script src="assets/js/main.js?v=20261031"></script>
+</body>
 </html>

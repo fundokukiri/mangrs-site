@@ -1449,13 +1449,27 @@ button {
 
 .install-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(1rem, 3vw, 1.4rem);
 }
 
 .install-card {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
   padding: clamp(1.1rem, 2.5vw, 1.6rem);
-  gap: 0.7rem;
+  gap: 0.7rem 1.5rem;
+}
+
+.install-card > h3,
+.install-card > p {
+  flex: 1 1 14rem;
+}
+
+.install-card > .install-code-wrap {
+  flex: 2 1 22rem;
+  min-width: 0;
 }
 
 .install-card h3 {
@@ -1540,14 +1554,6 @@ button {
 @media (max-width: 720px) {
   .wordmark-canvas {
     width: 100%;
-  }
-
-  .install-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .install-card-after {
-    grid-column: auto;
   }
 }
 
